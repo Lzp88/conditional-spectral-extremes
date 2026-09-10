@@ -1,0 +1,2318 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=26mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools,booktabs,microtype}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\E}{\mathbb E}\newcommand{\Pp}{\mathbb P}
+\newcommand{\T}{\mathbb T}\newcommand{\R}{\mathbb R}\newcommand{\C}{\mathbb C}
+\newcommand{\N}{\mathbb N}\newcommand{\Z}{\mathbb Z}
+\newcommand{\dd}{\,\mathrm d}\newcommand{\ind}{\mathbf1}
+\newcommand{\Var}{\operatorname{Var}}\newcommand{\Poi}{\operatorname{Poi}}
+\newcommand{\Leb}{\operatorname{Leb}}\newcommand{\TV}{\operatorname{TV}}
+\newcommand{\supp}{\operatorname{supp}}\newcommand{\Ree}{\operatorname{Re}}
+\newcommand{\Op}{O_{\Pp}}\newcommand{\eps}{\varepsilon}
+\numberwithin{equation}{section}\allowdisplaybreaks
+\setlength{\emergencystretch}{2em}
+\title{Spectral extremes under exact cycle conditioning}
+\author{Zhipeng Lu\thanks{Shenzhen MSU--BIT University and Guangdong
+Laboratory of Machine Perception and Intelligent Computing,
+Shenzhen 518172, Guangdong, China.
+Email: \href{mailto:zhipeng.lu@hotmail.com}{zhipeng.lu@hotmail.com}.}}
+\date{September 10, 2026}
+\hypersetup{pdftitle={Spectral extremes under exact cycle conditioning}}
+\begin{document}\maketitle
+\begin{abstract}
+Let $P_n$ be the matrix of a random permutation of $n$ symbols and let
+$M_n=\log\max_{|z|=1}|\det(I-zP_n)|$. Cook and Zeitouni proved that
+$M_n/\log n$ converges in probability to a constant $x_0$ for a uniform
+permutation. We show that the $\sqrt{\log n}$ fluctuations of $M_n$ are
+carried entirely by the number of cycles $K_n$. Write
+$\lambda(s)=\log\{\Gamma(1+s)/\Gamma(1+s/2)^2\}$, let $s_\kappa$ be the
+minimizer of $(1+\kappa\lambda(s))/s$ on $(0,\infty)$, and put
+$v(\kappa)=\kappa\lambda'(s_\kappa)$ and
+$a_\theta=\lambda(s_\theta)/s_\theta$. Under the Ewens measure with any
+fixed parameter $\theta>0$,
+\[
+ M_n=v(\theta)\log n+a_\theta\bigl(K_n-\theta\log n\bigr)
+       +\Op(\log\log n),
+\]
+so that the standardized pair $(K_n,M_n)$ converges jointly to $(G,G)$
+with $G$ standard normal: the maximum and the cycle count are
+asymptotically perfectly aligned. This is deduced from a statement about
+the exact conditional law, which does not depend on $\theta$: for every
+compact $[\kappa_-,\kappa_+]\subset(0,\infty)$ there is a finite $C$ with
+\[
+ \sup_{\kappa_-\log n\le k\le\kappa_+\log n}
+ \Pp\bigl(|M_n-v(k/\log n)\log n|>C\log\log n\ \big|\ K_n=k\bigr)
+ \longrightarrow0,
+\]
+uniformly over exact and possibly atypical cycle counts. The proof keeps
+the size and the cycle count simultaneously in a two-variable
+coefficient extraction. Cycles longer than $n/(\log n)^4$ are reserved as
+an analytic factor whose coefficients are flat under every size shift
+produced by the shorter cycles; positivity then converts a scalar
+coefficient asymptotic into a relative comparison of the entire
+path-constrained measure, with an error that does not degrade with the
+number of constraints or with the rarity of the event. The constrained
+lower bound comes from pointwise saddle estimates for killed
+convolutions along a dyadic chain of endpoint boxes.
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+
+\subsection{The maximum of a random permutation characteristic
+polynomial}
+
+Let $\sigma_n$ be a random permutation of $\{1,\dots,n\}$, let $P_n$ be
+its permutation matrix, and let $C_j=C_j(\sigma_n)$ be its number of
+$j$-cycles. Write $e(t)=\exp(2\pi it)$ and $\T=\R/\Z$ with normalized
+Lebesgue measure. The characteristic polynomial factors along cycles,
+\[
+ F_n(z)=\det(I-zP_n)=\prod_{j\ge1}(1-z^j)^{C_j},
+\]
+so that on the unit circle
+\begin{equation}\label{eq:field}
+ \log|F_n(e(t))|=\sum_{j\ge1}C_j\log|1-e(jt)| .
+\end{equation}
+We study
+\[
+ M_n=\log\|F_n\|_\infty=\max_{t\in\T}\log|F_n(e(t))|,
+\]
+which is also the logarithm of the maximum modulus of $\det(zI-P_n)$.
+
+The field \eqref{eq:field} is of log-correlated type. For a uniform
+permutation the counts $C_j$ are asymptotically independent Poisson
+variables of mean $1/j$, so \eqref{eq:field} is a sum over $\asymp\log n$
+effective dyadic scales of frequencies, its variance is of order
+$\log n$, and the covariance of two points decays like the logarithm of
+their distance. Its increments are, however, far from Gaussian: the
+summand $\log|1-e(jt)|$ is bounded above by $\log 2$ and has an
+exponential left tail. The extremal behaviour of $M_n$ is therefore
+governed by a genuine Legendre transform and not by a Gaussian rate. The
+relevant cumulant generating function is that of $\log|1-e(U)|$ for a
+uniform $U\in\T$,
+\begin{equation}\label{eq:A}
+ A(s)=\int_\T|1-e(t)|^s\dd t=\frac{\Gamma(1+s)}{\Gamma(1+s/2)^2},
+ \qquad\lambda(s)=\log A(s),\qquad s>-1.
+\end{equation}
+For complex $z$ with $\Ree z>-1$ we write $A(z)$ for the same integral,
+with $|1-e(t)|^z=\exp(z\log|1-e(t)|)$ off the roots and value zero at the
+roots; it is analytic and equals the same gamma ratio.
+
+Cook and Zeitouni \cite[Theorem~1.2]{CZ} proved that for a uniform
+permutation $M_n/\log n$ converges in probability to a constant $x_0$,
+characterized by $\lambda^*(x_0)=1$ for the Legendre transform
+$\lambda^*$ of $\lambda$. Their proof combines arithmetic separation of
+frequencies, a division into small and large arcs, two-point estimates
+and a truncated second moment. Those mechanisms reappear below, at the
+level of the constrained kernels; what is new here is the way the exact
+combinatorial constraints are carried through them.
+
+\subsection{Why the cycle count should be conditioned on}
+\label{subsec:why}
+
+The randomness in \eqref{eq:field} has two layers of very different
+character. The arithmetic layer is the choice of the frequencies $j$
+that occur; it produces the log-correlated structure and all the
+difficulty in locating the maximum. The other layer is the total number
+of cycles
+\[
+ K_n=\sum_{j\ge1}C_j,
+\]
+a single global statistic that merely counts how many summands
+\eqref{eq:field} has. Under the Ewens measure with parameter $\theta>0$
+one has $K_n=\theta\log n+\Op(\sqrt{\log n})$, and for the maximum this
+fluctuation is not negligible. The extremal speed depends on the number
+of summands, so a displacement of order $\sqrt{\log n}$ in $K_n$ moves
+$M_n$ by the same order; and $\sqrt{\log n}$ dominates every correction
+of size $\log\log n$. The leading fluctuation of $M_n$ is therefore
+inherited from the count layer, not from the arithmetic one.
+
+This suggests separating the two layers, and in the Ewens family the
+separation is exact. The cycle counts satisfy
+\[
+ \Pp_{\theta,n}(C_j=c_j)=h_n(\theta)^{-1}
+       \prod_{j\ge1}\frac{(\theta/j)^{c_j}}{c_j!},
+ \qquad\sum_jjc_j=n,
+\]
+where
+\begin{equation}\label{eq:basic-coeff}
+ h_n(u)=[z^n](1-z)^{-u},\qquad a_{n,k}=[u^k]h_n(u),
+ \qquad h_0(u)=1,
+\end{equation}
+and coefficients with an impossible index are zero. Conditioning on
+$K_n=k$ cancels the factor $\theta^k$ and leaves
+\begin{equation}\label{eq:conditional-law}
+ \Pp_{n,k}(C_j=c_j)=a_{n,k}^{-1}
+       \prod_j\frac{j^{-c_j}}{c_j!},
+ \qquad\sum_jjc_j=n,\quad\sum_jc_j=k.
+\end{equation}
+This law does not depend on $\theta$. It is a microcanonical law, with
+the size and the number of cycles both fixed exactly, and it is the
+canonical object that remains once the count layer has been removed.
+
+Working with \eqref{eq:conditional-law} is strictly more demanding than
+working with the Ewens law itself. The two are related by the mixture
+identity
+\begin{equation}\label{eq:mixture}
+ \Pp_{\theta,n}(A_n)=\sum_k\Pp_{\theta,n}(K_n=k)\,\Pp_{n,k}(A_n),
+\end{equation}
+and convergence of its left-hand side to zero gives no uniform bound on
+the conditional probabilities on the right: at the mode
+$\Pp_{\theta,n}(K_n=k)$ is only of order $(\log n)^{-1/2}$, and it is
+exponentially smaller for counts away from $\theta\log n$. A statement
+about the exact conditional law has to be proved directly, and every
+estimate that carries the size constraint has to keep a \emph{relative}
+error throughout. Producing such an estimate for a rare path event,
+\emph{after} all of the constraints defining that event have been
+imposed, is the technical heart of this paper.
+
+Exact cycle conditioning also arises on its own. In \cite{Lu} the author
+showed that for two uniformly random perfect matchings on $2n$ labels
+the profile of alternating components is Ewens$(1/2)$; there the number
+of components is the natural quantity to fix, and
+Section~\ref{sec:consequences} records the resulting spectral statement.
+
+\subsection{Results}\label{subsec:results}
+
+For each $\kappa>0$ the function $s\mapsto(1+\kappa\lambda(s))/s$ has a
+unique minimizer $s_\kappa$ on $(0,\infty)$, characterized by
+\begin{equation}\label{eq:critical}
+ \kappa\{s_\kappa\lambda'(s_\kappa)-\lambda(s_\kappa)\}=1.
+\end{equation}
+Indeed $\lambda''(s)>0$ is the variance of $\log|1-e(U)|$ under the
+exponential tilt of order $s$, so the left-hand side vanishes at $s=0$,
+has strictly positive derivative $\kappa s\lambda''(s)$ for $s>0$, and
+tends to infinity by Stirling's formula. Put
+$v(\kappa)=\kappa\lambda'(s_\kappa)$. Then, with $\kappa=k/\log n$,
+\begin{equation}\label{eq:center}
+ m_{n,k}:=\inf_{s>0}\frac{\log n+k\lambda(s)}{s}
+        =\frac{\log n+k\lambda(s_\kappa)}{s_\kappa}
+        =v(\kappa)\log n.
+\end{equation}
+
+\begin{theorem}[Exact-cycle localization]\label{thm:main}
+Let $0<\kappa_-<\kappa_+<\infty$. There is a finite constant $C$,
+depending only on this interval, such that
+\begin{equation}\label{eq:main}
+ \sup_{\substack{k\in\Z\\\kappa_-\log n\le k\le\kappa_+\log n}}
+ \Pp_{n,k}\bigl(|M_n-m_{n,k}|>C\log\log n\bigr)\longrightarrow0.
+\end{equation}
+\end{theorem}
+
+The constant is chosen before the error tolerance and serves every
+admissible integer $k$ at once, including counts far from the typical
+Ewens value. Both the upper and the lower half of \eqref{eq:main} are
+proved under the exact constraint; neither is obtained by averaging over
+$K_n$.
+
+Theorem~\ref{thm:main} transfers back to the Ewens family. Fix
+$\theta>0$ and put $a_\theta=\lambda(s_\theta)/s_\theta>0$. Since
+$K_n/\log n\to\theta$ in probability, one may apply \eqref{eq:main} with
+$\kappa=K_n/\log n$ and expand $v$ to first order at $\theta$; the
+quadratic remainder is $\Op(1)$. With probability tending to one and
+with a fixed constant,
+\begin{equation}\label{eq:random-center}
+ \bigl|M_n-v(\theta)\log n-a_\theta(K_n-\theta\log n)\bigr|
+   \le C\log\log n,
+\end{equation}
+and consequently, by the classical central limit theorem for $K_n$,
+\begin{equation}\label{eq:joint}
+ \left(\frac{K_n-\theta\log n}{\sqrt{\theta\log n}},\
+       \frac{M_n-v(\theta)\log n}{a_\theta\sqrt{\theta\log n}}\right)
+ \Longrightarrow(G,G),\qquad G\sim\mathcal N(0,1).
+\end{equation}
+This is Corollary~\ref{cor:ewens}. The extremal speed is set by an
+environment --- by how many cycles the permutation happens to have ---
+and that environment is itself asymptotically Gaussian; the maximum
+follows it. Statement \eqref{eq:joint} is joint weak convergence, and no
+assertion about moments or about a limit for the Pearson correlation is
+made.
+
+\subsection{Discussion}\label{subsec:discussion}
+
+\paragraph{The speed function.} The map $\kappa\mapsto v(\kappa)$ is
+strictly increasing and strictly concave: implicit differentiation of
+\eqref{eq:critical} gives \eqref{eq:v-derivatives}, namely
+$v'(\kappa)=\lambda(s_\kappa)/s_\kappa>0$ and
+$v''(\kappa)=-\{\kappa^3s_\kappa^3\lambda''(s_\kappa)\}^{-1}<0$. More
+cycles raise the extremal speed, with diminishing returns. The first
+derivative is exactly the coefficient $a_\theta$ in
+\eqref{eq:random-center}, which is why the random centring is linear in
+$K_n$ at the accuracy considered here. Since $\lambda'(s)<\log2$ for
+every $s>0$ we have $v(\kappa)<\kappa\log2$, in agreement with the
+deterministic bound $M_n\le K_n\log2$; the two are asymptotically equal
+as $\kappa\downarrow0$, where a permutation with few cycles can make all
+of its factors nearly extremal at once. At $\kappa=1$ equation
+\eqref{eq:critical} is the Legendre-transform equation
+$\lambda^*(v(1))=1$, so $v(1)=x_0$ is the Cook--Zeitouni constant and
+Theorem~\ref{thm:main} contains their leading order.
+
+\paragraph{The localization window.} The width $C\log\log n$ in
+\eqref{eq:main} is the natural limit of the present method. For
+branching random walks the second-order term of the maximum is
+logarithmic in the number of generations, and the number of effective
+generations here is of order $\log n$; a correction of size $\log\log n$
+is therefore expected in \eqref{eq:main}, and Theorem~\ref{thm:main}
+does not resolve it. We identify neither the coefficient of such a
+correction, nor a limit law for the residual, nor an extremal point
+process. On the other hand $\log\log n\ll\sqrt{\log n}$, so the window
+is far below the scale of \eqref{eq:random-center} and \eqref{eq:joint};
+those two statements are sharp at leading order.
+
+\begin{remark}\label{rem:family}
+Since \eqref{eq:conditional-law} does not involve $\theta$,
+Theorem~\ref{thm:main} applies verbatim to every law on cycle profiles
+of the form
+$\Pp(c)\propto w\bigl(\sum_jc_j\bigr)\prod_jj^{-c_j}/c_j!$ with
+$w\ge0$: conditioning any such law on its cycle count returns
+\eqref{eq:conditional-law}. Whenever the induced count concentrates on a
+compact set of values of $k/\log n$, it follows that
+$|M_n-m_{n,K_n}|\le C\log\log n$ with probability tending to one for
+that law. The Ewens family is the case $w(k)=\theta^k$.
+\end{remark}
+
+\subsection{Relation to previous work}\label{subsec:previous}
+
+Beyond \cite{CZ}, several strands bear on the problem. Hughes,
+Najnudel, Nikeghbali and Zeindler \cite{HNNZ} study moments,
+multiplicative class functions and linear statistics of characteristic
+polynomials under generalized Ewens measures, with generating functions
+in cycle counts. Dang and Zeindler \cite{DZ} obtain joint central limit
+theorems at finitely many fixed observation points under arithmetic
+hypotheses on those points. Fran\c{c}ois \cite[Theorem~2.2]{Francois}
+proves convergence of generalized-Ewens characteristic polynomials in
+the topology of local uniform convergence on the open unit disk. Neither
+a finite collection of observation points nor convergence in the
+interior controls the maximum on the boundary, which is a supremum over
+a family of constraints whose size grows with $n$. The central limit
+theorem for $K_n$ used in \eqref{eq:joint} is classical; sharper uniform
+asymptotics for the Ewens count distribution are in \cite{KMS}, and the
+coefficient asymptotics behind \eqref{eq:basic-coeff} belong to the
+classical theory of Stirling numbers of the first kind.
+
+Random centring of an extremum by an environment has precedents. For
+branching random walks in a time-inhomogeneous random environment,
+Mallein and Mi\l o\'s \cite{MM} identify an environment-dependent centre
+together with a logarithmic correction. The mechanism behind
+\eqref{eq:random-center} is of that type, with the cycle count playing
+the role of the environment, although the model here is a finite
+permutation and the proof is self-contained: it uses elementary count
+couplings, path estimates and second moments rather than an extremal
+theorem for random environments.
+
+Cook and Gu have announced related work on maxima of Poissonian
+log-correlated fields \cite{CG}. Public abstracts from January 2025,
+October 2025 and January 2026 describe refined maximal behaviour for
+related random series or trigonometric polynomials, modelled on a
+branching random walk in a random time-dependent environment, and the
+research listing describes the work as in preparation. A complete
+theorem statement was not available in the sources consulted on
+September 10, 2026, so no comparison with a full theorem, and no claim
+of priority over that work, is made here. We note only that the object
+treated below is the exact finite permutation law under a precise
+cycle-count constraint, for which \eqref{eq:mixture} shows that an
+unconditional statement is not sufficient.
+
+The coefficient viewpoint continues that of \cite{Lu}. The scalar
+principles behind the reservoir estimate of Section~\ref{sec:reservoir}
+originate in the hybrid method of Flajolet, Fusy, Gourdon, Panario and
+Pouyanne \cite{FFGPP}; the estimate needed here has a cutoff that grows
+with $n$ and a complex marker, and is proved directly. The contribution
+of the coefficient step is the uniformity of its relative error after
+all restrictions of a rare path event have been imposed on a positive
+measure.
+
+\subsection{Outline of the proof}\label{subsec:outline}
+
+Throughout the proof $L=\log n$, $\ell=\log L$ and $b=\lfloor
+n/L^4\rfloor$. The following is the skeleton; the constants are fixed in
+the order set out in Section~\ref{sec:maximum}.
+
+\paragraph{An analytic reservoir.} A fixed-observation hybrid estimate
+cannot control the growing family of path restrictions that a maximum
+requires. Instead we reserve every cycle longer than $b$. What remains
+is a polynomial whose coefficients are positive measures recording the
+heights $\log|1-e(jt)|$ at the observation points, and whose degree is
+$O(Lb)=o(n)$ under the exact count constraint. The reserved factor
+$R_b(z,u)=\exp\bigl(u\sum_{j>b}z^j/j\bigr)$ has one algebraic
+singularity and an entire correction; a uniform Hankel estimate and a
+saddle point in the marker $u$ show that its coefficients are flat under
+every size shift the short cycles can produce, with relative error
+$O(1/\ell)$. Because the comparison is between positive measures, it can
+be applied \emph{after} all path projections and yields a relative
+comparison of the whole restricted measure. Neither the number of
+projections, nor the dimension of the space, nor the mass of the event
+enters the error. This is Theorem~\ref{thm:positive-transfer}, and it is
+what replaces a total-variation approximation whose absolute error would
+exceed the probability of the event being measured.
+
+\paragraph{A constrained kernel lower bound.} After the transfer, the
+short cycles may be treated as independent harmonic samples in
+logarithmic blocks. Grouping the blocks dyadically from both ends
+produces $B\asymp\ell$ coarse groups of widths $\mathsf H_j$ that vary
+by a bounded factor. Along a chain of endpoint boxes of width
+$\sqrt{\mathsf H_j}$ we bound the killed convolution kernels from below
+pointwise, using a bridge estimate for the tilted log-sine law
+(Lemma~\ref{lem:bridge}). Integrating over the intermediate boxes
+cancels the density factors $\mathsf H_j^{-1/2}$ against the box widths,
+so that the surviving cost is $\sum_jE_j^2$ rather than
+$B\max_jE_j^2$, where $E_j$ measures the deviation of the realized
+counts in group $j$. This is what keeps the total cost polynomial,
+$p_L\ge L^{-C_*}$ (Lemma~\ref{lem:boxes}), and it is what limits the
+final window to $O(\ell)$.
+
+\paragraph{Fourier comparison and a second moment.} On arithmetically
+separated points the tilted block kernels are close, in total variation
+$O(L^{-J})$ for any fixed $J$, to independent copies of the reference
+convolution (Lemma~\ref{lem:smooth}). Since $J$ may be chosen after
+$C_*$, that error is $o(p_L^2)$ and the comparison is valid
+\emph{relative} to the rare event, not merely in absolute terms. A first
+and second moment for the constrained functional then give a high point
+in any prescribed set of angles of measure at least one half; the
+matching upper bound follows from an integrated moment estimate whose
+input is an entropy gap $\kappa b_s<1$ for the block envelope
+(Lemma~\ref{lem:entropy}).
+
+\paragraph{Restoring the remaining cycles.} The low-frequency cycles are
+restored on a random but admissible set of angles, using only that the
+lower bound of the previous step is uniform over such sets. The long
+cycles are reinserted by a deterministic stability estimate for the
+supremum norm under multiplication by $\prod(1-z^{j_v})$
+(Lemma~\ref{lem:insertion}), whose loss is controlled by an exact
+conditional factorial-moment identity for
+$\bigl(\sum_{j\le b}jC_j\bigr)\bigl(\sum_{l>b}C_l/l\bigr)$
+(Lemma~\ref{lem:crossmass}). Both operations move the centre by $O(\ell)$
+only.
+
+\subsection{Organization}\label{subsec:organization}
+
+Section~\ref{sec:reservoir} constructs the reservoir, proves the
+event-uniform coefficient comparison and identifies the law of the
+marked block counts. Section~\ref{sec:kernel} proves the pointwise
+killed-convolution estimates, the regularity of the count environment
+and the box-chain lower bound. Section~\ref{sec:fourier} supplies the
+uniform one- and two-point Fourier comparisons. Section~\ref{sec:maximum}
+fixes the constants, runs the moment computation, restores the low and
+long cycles and completes the proof of Theorem~\ref{thm:main}.
+Section~\ref{sec:consequences} derives Corollary~\ref{cor:ewens}, records
+the two-matching application and delimits what is and is not asserted.
+
+\section{An analytic reservoir and a positive coefficient transfer}
+\label{sec:reservoir}
+Throughout the proof set
+\begin{equation}\label{eq:parameters}
+ L=\log n,\quad \ell=\log L,\quad b=\lfloor n/L^4\rfloor,
+ \quad H_b=\sum_{j=1}^b\frac1j,\quad T=L-H_b=4\ell-\gamma+o(1).
+\end{equation}
+All assertions are for sufficiently large $n$. Define
+\begin{equation}\label{eq:reservoir}
+ R_b(z,u)=\exp\left(u\sum_{j>b}\frac{z^j}{j}\right)
+ =(1-z)^{-u}\exp\{-uH_b(z)\},\qquad
+ H_b(z)=\sum_{j=1}^b\frac{z^j}{j},
+\end{equation}
+and $r_{N,l}^{(b)}=[z^Nu^l]R_b(z,u)$.
+
+\subsection{A uniform scalar coefficient estimate}
+\begin{lemma}[Reservoir coefficient estimate]\label{lem:reservoir}
+Fix a compact set $\mathcal U\subset\C$. Uniformly for $u\in\mathcal U$,
+$b\ge2$, and $N\ge4b$,
+\begin{align}\label{eq:reservoir-scalar}
+ [z^N]R_b(z,u)
+ &=e^{-uH_b}h_N(u)+E_{N,b}(u),\\[-2mm]
+ |E_{N,b}(u)|
+ &\le C\frac bN e^{-\Ree(u)H_b}N^{\Ree(u)-1}
+       +Cb^C e^{-N/(2b)}.\nonumber
+\end{align}
+The estimate is absolute, including at zeros of $1/\Gamma(u)$.
+\end{lemma}
+\begin{proof}
+Continue \eqref{eq:reservoir} to the disk of radius $1+1/b$, slit along
+$[1,1+1/b]$, using the branch of $\log(1-z)$ analytic at zero. Put
+$\rho=1+1/b$. On $|z|=\rho$ the quantity
+$H_b(z)+\log(1-z)$ is bounded by an absolute constant on either side
+of the slit. To verify this, for $|\arg z|\le2/b$ use
+$|H_b(z)-H_b|\le Cb|z-1|\le C$ and
+$\log|1-z|=-\log b+O(1)$. Otherwise the identity
+\[
+ H_b(z)+\log(1-z)=-\int_0^z\frac{w^b}{1-w}\dd w
+\]
+on the radial segment gives a bound $C/(b|\arg z|)\le C$; here
+$|1-te^{i\varphi}|\ge c(|1-t|+|\varphi|)$ for
+$0\le t\le\rho$, $|\varphi|\le\pi$, after harmless changes of constants.
+Thus $R_b$ is bounded on the outer circle, uniformly on $\mathcal U$.
+The comparison function $e^{-uH_b}(1-z)^{-u}$ has at worst polynomial
+size in $b$ there. Their outer-contour contributions to the coefficient
+are at most $Cb^C\rho^{-N}\le Cb^C e^{-N/(2b)}$.
+
+Deform Cauchy's contour into the outer circle, both sides of the slit,
+and an indentation $|z-1|=1/N$. For $|w|\le1/b$,
+\[
+ |H_b(1+w)-H_b|\le Cb|w|,\qquad
+ |e^{-u(H_b(1+w)-H_b)}-1|\le Cb|w|.
+\]
+On the indentation, $|z|^{-N-1}\le C$ and its length is $O(N^{-1})$.
+The contribution of the difference of the two functions is at most
+$Ce^{-aH_b}N^{a-1}(b/N)$, where $a=\Ree u$. On either side of the slit
+write $z=1+t$, $1/N\le t\le1/b$. The remaining contribution is bounded by
+\[
+ Ce^{-aH_b}b\int_{1/N}^{1/b}t^{1-a}e^{-Nt/2}\dd t
+ \le Ce^{-aH_b}N^{a-1}\frac bN.
+\]
+The last integral is uniform for $a$ in a compact interval; its lower
+limit is $1/N$, so it poses no integrability problem when $a\ge2$.
+Branch moduli contribute bounded factors on $\mathcal U$. This proves
+\eqref{eq:reservoir-scalar}, without moving the indentation to zero.
+
+% BEGIN EXPANSION reservoir_contour
+\paragraph{Uniformity of the contour bounds.}
+Here and below a compact complex marker set is enclosed in a disk
+$|u|\le M$, with $M$ fixed. The estimate on the outer circle can be
+checked without an infinite series outside its disk of convergence.
+For $z=\rho e^{i\varphi}$ with $|\varphi|>2/b$, use the radial integral
+above and $|1-te^{i\varphi}|\ge c|\varphi|$. Its absolute value is at most
+\[
+ \frac{C}{|\varphi|}\int_0^\rho t^b\dd t
+ =\frac{C\rho^{b+1}}{(b+1)|\varphi|}
+ \le \frac{C}{b|\varphi|}.
+\]
+For $|\varphi|\le2/b$, one has $|z-1|\asymp b^{-1}$ and
+$|z-1|\le C/b$. The elementary identity
+$z^j-1=(z-1)\sum_{v=0}^{j-1}z^v$ gives
+$|H_b(z)-H_b|\le Cb|z-1|$. Since
+$H_b=\log b+O(1)$ and the branch argument of $1-z$ is bounded, this
+also bounds $H_b(z)+\log(1-z)$ in the small-angle sector.
+These arguments apply to the two boundary values at the slit.
+
+For clarity, the remaining power of $N$ in the bank integral is obtained
+by the substitution $v=Nt$:
+\[
+ b\int_{1/N}^{1/b}t^{1-a}e^{-Nt/2}\dd t
+ =bN^{a-2}\int_1^{N/b}v^{1-a}e^{-v/2}\dd v
+ \le C_M bN^{a-2},\qquad |a|\le M.
+\]
+The last constant is finite because the lower endpoint is one and the
+upper tail is exponential, uniformly in $a$. On the indentation,
+$|(1-z)^{-u}|\le C_M N^a$, the analytic correction is $O_M(b/N)$,
+and the arc length is $O(1/N)$. All terms are therefore absolute
+estimates of the same difference of analytic functions. In particular
+none was obtained by division by $h_N(u)$ or by $1/\Gamma(u)$; their
+possible zeros cause no exception.
+% END EXPANSION reservoir_contour
+
+\end{proof}
+
+\begin{lemma}[Marker extraction]\label{lem:marker}
+Uniformly for $k/\log n$ in a positive compact interval,
+\begin{equation}\label{eq:akn}
+ a_{n,k}=\frac{L^k}{n k!\,\Gamma(k/L)}\{1+O(L^{-1})\}.
+\end{equation}
+Let $b$ be as in \eqref{eq:parameters}, $0\le d\le C_0 Lb$,
+$N=n-d$, and $T_N=\log N-H_b$. Uniformly when $l/T_N$ belongs to a
+positive compact interval,
+\begin{equation}\label{eq:reservoir-marker}
+ r_{N,l}^{(b)}
+ =\frac{T_N^l}{N l!\,\Gamma(l/T_N)}
+   \left\{1+O\left(T_N^{-1}+\sqrt{T_N}\,b/N\right)\right\}.
+\end{equation}
+Consequently, if $l/T$ belongs to a fixed positive compact interval,
+\begin{equation}\label{eq:flatness}
+ \sup_{0\le d\le C_0Lb}
+ \left|\frac{r_{n-d,l}^{(b)}}{r_{n,l}^{(b)}}-1\right|
+ \le \eps_n,\qquad \eps_n=O(\ell^{-1}+L^{-3})=o(1).
+\end{equation}
+\end{lemma}
+\begin{proof}
+For bounded $u$, the gamma-ratio formula, interpreted analytically at
+nonpositive integers, gives
+\[
+ h_N(u)=N^{u-1}\left\{\frac1{\Gamma(u)}+O(N^{-1})\right\},
+\]
+with an absolute uniform error of modulus $CN^{\Ree u-2}$.
+For an entire function $g$, $x\to\infty$, and $j/x$ in a positive
+compact interval, the elementary marker saddle is
+\begin{equation}\label{eq:elementary-saddle}
+ [u^j]e^{xu}g(u)=\frac{x^j}{j!}\{g(j/x)+O(x^{-1})\}.
+\end{equation}
+For completeness, write $g(u)=\sum g_m u^m$ and divide the left-hand
+side by $x^j/j!$. It becomes
+$\sum_{m\le j}g_m(j)_m/x^m$. On a disk of radius greater than twice the
+largest $j/x$, Cauchy's coefficient bound and
+$|1-(j)_m/j^m|\le m(m-1)/(2j)$ give the error $O(j^{-1})$.
+The omitted tail is exponentially small. This proves
+\eqref{eq:elementary-saddle}; it also holds for a function analytic on
+such a fixed disk.
+
+Apply it with $g=1/\Gamma$ and $x=L$. The coefficient of the gamma-ratio
+error on $|u|=k/L$ is at most
+$Cn^{-2}(k/L)^{-k}e^k$, which is smaller than the main term by
+$O(\sqrt L/n)$. This proves \eqref{eq:akn}.
+For the reservoir, Lemma~\ref{lem:reservoir} gives the main function
+$N^{-1}e^{T_Nu}/\Gamma(u)$. On $|u|=l/T_N$, Cauchy's bound for its error,
+compared with Stirling's estimate for $T_N^l/l!$, is
+$O(\sqrt{T_N}b/N)$ relatively. The outer-contour error is negligible:
+$N/b\asymp L^4$ whereas $\log N\asymp L$, so even a fixed polynomial
+in $N,b$ times $e^{-N/(2b)}$ tends to zero faster than any negative
+power of $L$. The main-function saddle gives the additional $O(T_N^{-1})$.
+
+Finally $T_N-T=\log(N/n)=O(d/n)$, and the logarithmic derivative in $N$
+of $T_N^l/(N\Gamma(l/T_N))$ is $O(N^{-1})$ uniformly in the indicated
+range. Equivalently, take the ratio of the explicit main terms.
+Together with \eqref{eq:reservoir-marker}, this proves \eqref{eq:flatness}.
+
+% BEGIN EXPANSION marker_flatness
+\paragraph{The two normalizations in the marker argument.}
+To detail the power-series estimate, put $t=j/x$ and choose a fixed
+radius $R_0>2\sup t$. If $|g_m|\le M_0R_0^{-m}$, then
+\[
+ \left|\sum_{m=0}^j g_m\frac{(j)_m}{x^m}-g(t)\right|
+ \le \frac{M_0}{2j}\sum_{m=0}^j m(m-1)(t/R_0)^m
+       +M_0\sum_{m>j}(t/R_0)^m
+ =O(x^{-1}).
+\]
+The bound for $(j)_m$ follows from
+$1-\prod_{v=0}^{m-1}(1-v/j)\le\sum_{v=0}^{m-1}v/j$.
+This calculation is valid for complex coefficients as well. For
+$g=1/\Gamma$ its value at the positive saddle is bounded away from
+zero on the prescribed interval. Thus the absolute $O(x^{-1})$
+error in the braces becomes a relative error there.
+
+In the reservoir application, let $t=l/T_N$. The Cauchy error coming
+from the first term of \eqref{eq:reservoir-scalar} is at most
+$C(b/N^2)t^{-l}e^{tT_N}$. The positive main coefficient has size
+$N^{-1}(T_N^l/l!)g(t)$. Their ratio is at most
+\[
+ C\frac bN\,\frac{e^l l!}{l^l}
+ \le C\frac bN\sqrt l=O\!\left(\sqrt{T_N}\,b/N\right).
+\]
+For flatness, keep the integer $l$ and the cutoff $b$ fixed while the
+real size variable $N$ moves from $n-d$ to $n$. If
+$F(N)=T_N^l/(N\Gamma(l/T_N))$, and
+$\psi=\Gamma'/\Gamma$ on the positive real axis, then
+\[
+ \frac{\dd}{\dd N}\log F(N)
+ =\frac1N\left\{-1+\frac l{T_N}
+            +\frac l{T_N^2}\psi(l/T_N)\right\}.
+\]
+The braces are uniformly bounded. Also $d/n=O(L^{-3})$ and
+$T_N\asymp T\asymp\ell$. Integrating the derivative bounds the ratio
+of main terms by $1+O(d/n)$; the two relative saddle errors add
+$O(T^{-1}+\sqrt T\,b/n)$. This proves the stated $\eps_n$ uniformly
+over every allowed size shift with a single constant.
+% END EXPANSION marker_flatness
+
+\end{proof}
+
+\subsection{One transfer for the entire constrained kernel}
+For finite positive measures, write $\mu\le\nu$ if the inequality holds
+on every measurable set.
+\begin{theorem}[Positive coefficient transfer]\label{thm:positive-transfer}
+Let $l/T$ stay in a positive compact interval and let
+$\boldsymbol B(z)=\sum_{d=0}^{D}z^d\nu_d$, where each $\nu_d$ is a
+finite positive measure on any measurable space and $D\le C_0Lb$.
+Then
+\begin{equation}\label{eq:order-transfer}
+ (1-\eps_n)r_{n,l}^{(b)}\boldsymbol B(1)
+ \le [z^n]\{[u^l]R_b(z,u)\,\boldsymbol B(z)\}
+ \le(1+\eps_n)r_{n,l}^{(b)}\boldsymbol B(1).
+\end{equation}
+In particular the bound holds after any collection of positive path
+projections or weights. Its error does not depend on the dimension of
+the space, the number of projections, or the mass of the event being
+measured. If $\boldsymbol B(1)$ has positive total mass, normalizing
+both sides to probability measures changes the multiplicative error only
+by $1+O(\eps_n)$.
+\end{theorem}
+\begin{proof}
+The middle measure is exactly
+$\sum_{d=0}^D r_{n-d,l}^{(b)}\nu_d$.
+Apply \eqref{eq:flatness} term by term. The last assertion follows by
+applying the same inequalities to the whole space and dividing.
+No norm bound for a product of projection operators is needed.
+
+% BEGIN EXPANSION positive_normalization
+\paragraph{Normalization and simultaneous restrictions.}
+Here is the exact division used in the last assertion. Write
+$\nu=\sum_d\nu_d$, $r=r_{n,l}^{(b)}$, and
+$\mu=\sum_d r_{n-d,l}^{(b)}\nu_d$. For large $n$, $r>0$ and
+$0\le\eps_n<1$. If $0<\nu(\Omega)<\infty$, the whole-space estimate
+gives $0<\mu(\Omega)<\infty$. For every measurable $E$,
+\[
+ \frac{1-\eps_n}{1+\eps_n}\frac{\nu(E)}{\nu(\Omega)}
+ \le\frac{\mu(E)}{\mu(\Omega)}
+ \le\frac{1+\eps_n}{1-\eps_n}\frac{\nu(E)}{\nu(\Omega)}.
+\]
+If $\nu(E)=0$, both the middle and the reference event probabilities
+are zero, so no division by an event probability is needed. More
+generally a nonnegative measurable weight $w$ can be included by
+replacing $\nu_d(E)$ with $\int_E w\dd\nu_d$, provided these weighted
+measures are finite. A conjunction of path inequalities is exactly
+such a weight, namely its indicator. All the inequalities are
+imposed on the stored increment vector before forming this sum.
+
+For the actual short-cycle application, fix the counts $q_i$ and let
+$q=\sum_iq_i$, $l=k-q$. The product of the unnormalized harmonic
+sample masses has total mass $\prod_i H_i^{q_i}/q_i!$. Grouping it
+by its total size gives the measures $\nu_d$ above. Every possible
+size is at most $qb\le kb$. Repeated samples and the factorial
+$q_i!$ give precisely the cycle weights in
+\eqref{eq:conditional-law}; on normalization this is the usual
+multinomial expansion of the harmonic sampling law. Thus the
+reference event $E$ can specify the entire multiblock path, its
+endpoint, and restrictions on several observation points at once.
+The one reservoir factor depends only on $d$ and $l$, irrespective
+of how that event was described.
+% END EXPANSION positive_normalization
+
+\end{proof}
+
+Here is its concrete use. Partition $\{1,\ldots,b\}$ into blocks
+$I_0,\ldots,I_m$, and put $H_i=\sum_{j\in I_i}1/j$. For observation
+points $t_1,\ldots,t_d$ let
+$\boldsymbol f(j)=(\log|1-e(jt_v)|)_{v=1}^d$. A root is recorded as
+$-\infty$ in the corresponding coordinate. Heights lie in
+$(\R\cup\{-\infty\})^d$, with the usual absorbing convention for
+addition; a positive exponential tilt assigns zero mass to such an atom.
+After selecting counts $q_i$, a height-marked block is
+\begin{equation}\label{eq:measure-block}
+ \boldsymbol B_{i,q_i}(z)
+ =\frac1{q_i!}\left(\sum_{j\in I_i}\frac{z^j}{j}
+                       \delta_{\boldsymbol f(j)}\right)^{*q_i}.
+\end{equation}
+Convolution adds heights and size; before the final coefficient is taken,
+one may retain the whole increment vector and impose all cumulative-height
+inequalities. This gives positive measures with size degree at most
+$(\sum q_i)b\le kb$. Evaluation at $z=1$, after normalization, is exactly
+$q_i$ independent harmonic samples in each block, with mass $1/(jH_i)$.
+Thus, conditionally on all $q_i$ and on $l=k-\sum q_i$ long cycles,
+\eqref{eq:order-transfer} compares the \emph{entire} actual short-cycle
+configuration with these product harmonic measures, with relative error
+$1+O(\eps_n)$. The original total-size constraint has been integrated
+out by its analytic coefficient, not replaced by a total-variation
+approximation whose error is larger than the rare event.
+
+\subsection{The exact-cycle distribution of the block counts}
+\begin{proposition}[Multinomial count reservoir]\label{prop:multinomial}
+Let $k/L=\kappa\in[\kappa_-,\kappa_+]$ and let
+$(Q_0^*,\ldots,Q_m^*,L_*^*)$ be multinomial with $k$ trials and
+probabilities
+\begin{equation}\label{eq:multi-probs}
+ H_0/L,\ldots,H_m/L,T/L.
+\end{equation}
+They sum to one. Under \eqref{eq:conditional-law}, let $Q_i$ count cycles
+in $I_i$ and $L_*$ count cycles larger than $b$. Uniformly on
+\begin{equation}\label{eq:l-typical}
+ \mathcal G=\{|l-\kappa T|\le T^{3/4}\},
+\end{equation}
+the actual probability of each count vector equals the multinomial
+probability times $1+o(1)$, with a uniform error. Both distributions assign
+probability tending to one to $\mathcal G$. These assertions hold for
+arbitrarily many blocks.
+\end{proposition}
+\begin{proof}
+Sum the exact configuration weights at fixed $(q_i,l)$. All short
+configurations have size at most $kb\le\kappa_+Lb$. By
+Theorem~\ref{thm:positive-transfer}, their total weight is
+\[
+ \{1+O(\eps_n)\}\,r_{n,l}^{(b)}\prod_i\frac{H_i^{q_i}}{q_i!}.
+\]
+Divide by \eqref{eq:akn} and apply \eqref{eq:reservoir-marker}. The ratio
+to the multinomial mass is
+\[
+ \frac{\Gamma(\kappa)}{\Gamma(l/T)}
+       \{1+O(T^{-1}+\eps_n)\}=1+o(1)
+\]
+uniformly on \eqref{eq:l-typical}. A binomial Chernoff bound gives
+$\Pp(|L_*^*-\kappa T|>T^{3/4})\le2e^{-c\sqrt T}$ uniformly.
+Summing the uniform relative estimate on this set proves that the actual
+mass there also tends to one. No assertion about the mass ratio outside
+this set is necessary.
+\end{proof}
+
+\section{Pointwise killed-convolution estimates}
+\label{sec:kernel}
+All constants in this and the following sections can be chosen uniformly
+for $\kappa\in[\kappa_-,\kappa_+]$. Thus $s=s_\kappa$ ranges over a
+fixed compact subset of $(0,\infty)$.
+
+\subsection{The Mellin kernel and a bridge density lower bound}
+Let $V=\log|1-e(U)|$ for uniform $U\in\T$. A change of variables gives
+\begin{equation}\label{eq:Vdensity}
+ f_V(x)=\frac{e^x}{\pi\sqrt{1-e^{2x}/4}}\ind_{\{x<\log2\}}.
+\end{equation}
+For $\beta>0$, define the positive tilted kernel
+\begin{equation}\label{eq:tilt-kernel}
+ f_\beta(x)=e^{\beta x-\lambda(\beta)}f_V(x),\qquad
+ \mu_\beta=\lambda'(\beta).
+\end{equation}
+Its convolution transform is $A(\beta+it)/A(\beta)$.
+
+\begin{lemma}[Uniform convolution bounds]\label{lem:walk}
+For $\beta$ in a fixed compact subset of $(0,\infty)$ and all sufficiently
+large $q$, let $g_{\beta,q}$ be the continuous version of the centered
+$q$-fold convolution density. Then
+\[
+ \sup_x g_{\beta,q}(x)\le Cq^{-1/2},\qquad
+ g_{\beta,q}(0)\ge cq^{-1/2}.
+\]
+If $Y_j$ have density $f_\beta(\cdot+\mu_\beta)$ independently, then
+\begin{equation}\label{eq:walkmax}
+ \Pp\left(\max_{j\le q}\left|\sum_{v\le j}Y_v\right|>w\right)
+ \le2e^{-cw^2/q},\qquad 1\le w\le c q.
+\end{equation}
+\end{lemma}
+\begin{proof}
+The centered log moment generating function is at most $Ct^2$ for
+small real $t$, uniformly in $\beta$. The exponential supermartingale,
+stopped at its first crossing before time $q$, gives
+$\Pp(\max S_j>w)\le\exp(-tw+Cqt^2)$.
+Choose $t$ proportional to $w/q$, and repeat with $-S_j$, proving
+\eqref{eq:walkmax}.
+
+For $q\ge3$, the convolution integral is continuous: $f_\beta$ belongs
+to $L^{3/2}(\R)$, so Young's inequality and continuity of translations
+give boundedness and continuity of its third and subsequent convolutions.
+For the density bounds, the centered characteristic function has modulus
+at most $e^{-ct^2}$ near zero, uniformly on the tilt interval. On each
+fixed annulus its modulus is at most $\rho<1$: equality would force
+$e^{itV}$ to be constant, impossible for the positive density
+\eqref{eq:Vdensity} on an interval. The gamma ratio and Stirling's formula
+on vertical strips give the bound $C(1+|t|)^{-1/2}$ at infinity.
+Split the Fourier inversion integral into these three regions. The
+absolute integral is at most $Cq^{-1/2}$. At zero, putting $t=u/\sqrt q$
+in the first region gives
+$\sqrt q\,g_{\beta,q}(0)\to(2\pi\lambda''(\beta))^{-1/2}$ uniformly;
+the other regions are exponentially small. This proves both bounds.
+\end{proof}
+
+For a path of $q$ centered increments write $S_j$ for its partial sums.
+The density of $S_q$ at zero restricted to
+$\max_{j\le q}|S_j|\le W\sqrt q$ is well defined by convolution and
+Lebesgue integration. All restricted densities below use the iterated
+convolution integral with the relevant increment density, substituting
+the prescribed total minus the preceding increments for the last increment.
+\begin{lemma}[A pointwise bridge kernel]\label{lem:bridge}
+There are fixed $W,c>0$ such that this restricted density is at least
+$cq^{-1/2}$, uniformly for the same tilts and all sufficiently large $q$.
+Consequently, if $d/q=\lambda'(\beta)$ and $\beta$ is in the same
+compact tilt interval, the $f_s$ convolution density at total increment
+$d$, restricted to
+\[
+ \left|\sum_{v\le j}x_v-\frac jq d\right|\le W\sqrt q
+ \quad(1\le j\le q),
+\]
+is at least
+\begin{equation}\label{eq:bridge-saddle}
+ cq^{-1/2}\exp\{q[\lambda(\beta)-\lambda(s)]-(\beta-s)d\}.
+\end{equation}
+In particular, if $|d-q\lambda'(s)|/q=o(1)$, the last exponential is at
+least $\exp\{-C(d-q\lambda'(s))^2/q\}$.
+\end{lemma}
+\begin{proof}
+Split $q$ into $q_1=\lfloor q/2\rfloor$ and $q_2=q-q_1$.
+The density at zero contributed by paths having
+$\max_{j\le q_1}|S_j|>W\sqrt q$ is at most
+\[
+ \sup_x g_{\beta,q_2}(x)\,
+ \Pp(\max_{j\le q_1}|S_j|>W\sqrt q)
+ \le Cq^{-1/2}e^{-cW^2}.
+\]
+For a path with total zero, deviations during its second half are
+negative reversed partial sums of that half. Reversing the increments
+gives the same bound for a violation in the second half. Subtract the
+two bounds from $g_{\beta,q}(0)\ge c_0q^{-1/2}$ and choose $W$ large.
+These are statements about densities, obtained by integrating the unused
+half-convolution; no conditioning on a null event is used without a density.
+
+On the hyperplane of total increment $d$, the density ratio of the
+$f_s$ product to the $f_\beta$ product is the constant exponential in
+\eqref{eq:bridge-saddle}. The bridge tube is unchanged by that ratio.
+Finally $\lambda''$ is bounded above and below on the compact tilt
+interval. The inverse function theorem gives
+$|\beta-s|\le C|d-q\lambda'(s)|/q$, and Taylor expansion of the
+exponent gives the final assertion.
+
+% BEGIN EXPANSION bridge_pointwise
+\paragraph{The pointwise integral and its change of tilt.}
+The definition used in this proof can be written explicitly. Given
+increments $x_1,\ldots,x_{q-1}$, set
+$x_q=d-\sum_{v<q}x_v$ and $S_j=\sum_{v\le j}x_v$. For a measurable
+path restriction $E\subset\R^q$, put
+\[
+ K_{\beta,q}^{E}(d)=
+ \int_{\R^{q-1}}\ind_E(x_1,\ldots,x_q)
+              \prod_{v=1}^q f_\beta(x_v)
+                   \dd x_1\cdots\dd x_{q-1}.
+\]
+This specifies a value at every $d$. With no restriction it agrees
+with the continuous convolution density for $q\ge3$, by the
+convolution identities and the regularity established in
+Lemma~\ref{lem:walk}. Integrating in $d$ gives the probability of
+$E$ under the product increment law: the substitution from the
+last increment to $d$ is a translation with Jacobian one. The
+same identity with an endpoint indicator gives disintegration
+over any measurable endpoint set.
+
+To apply the half-path argument, center the increments by
+$\mu_\beta$. On the hyperplane of centered total zero, the
+contribution of a first-half event $E_1$ is the integral of its
+first-half product density times
+$g_{\beta,q_2}(-S_{q_1})$. It is at most
+$\sup g_{\beta,q_2}\,\Pp(E_1)$. For the second half use the reversal
+$(x_1,\ldots,x_q)\mapsto(x_q,\ldots,x_1)$. On the free
+$q-1$ coordinates its absolute Jacobian is one; its product density
+is unchanged. Moreover a reversed partial sum of length $q-j$ is
+$-S_j$ when the total is zero. A violation in either half is
+therefore bounded by one of two identical maximal-inequality
+estimates. Once $W$ is fixed, their sum is at most
+$c_0/(2\sqrt q)$ by increasing $W$, and then increasing the lower
+threshold for $q$ so that the allowed range in \eqref{eq:walkmax}
+contains $W\sqrt q$. This gives a strictly positive bound at the
+specified endpoint itself.
+
+On the same parametrized hyperplane the change of tilt is exactly
+\[
+ \prod_{v=1}^q f_s(x_v)
+ =\exp\{q[\lambda(\beta)-\lambda(s)]-(\beta-s)d\}
+       \prod_{v=1}^q f_\beta(x_v).
+\]
+It remains true when one of the factors is zero. For the near-mean
+assertion first enlarge the compact interval of $s$ slightly
+within $(-1,\infty)$. On that larger interval let
+$0<v_-\le\lambda''\le v_+$. For a fixed small enough $\delta>0$,
+$|d/q-\lambda'(s)|\le\delta$ has a unique solution
+$\lambda'(\beta)=d/q$ in the enlarged interval, and
+$|\beta-s|\le v_-^{-1}|d/q-\lambda'(s)|$. Taylor's formula in the
+form
+\[
+ \lambda(\beta)-\lambda(s)-(\beta-s)\lambda'(\beta)
+ =-\int_s^\beta(t-s)\lambda''(t)\dd t
+ \ge-\frac{v_+}{2}(\beta-s)^2
+\]
+now proves the asserted quadratic penalty, also when $\beta<s$.
+The enlarged interval is essential when $s$ lies at one endpoint
+of its original compact range.
+% END EXPANSION bridge_pointwise
+
+\end{proof}
+
+This pointwise estimate is stronger than a lower bound for one endpoint
+window. It will be integrated over a chain of endpoint boxes. The
+integration is what prevents payment of a narrow-window factor at every
+scale.
+
+\subsection{Fine scales and a regular count environment}
+Take a fixed $A_0$ sufficiently large and fixed constants $g_*,r_*>0$
+to be chosen later. Define
+\begin{equation}\label{eq:fine-scales}
+ h=A_0\ell,\quad r=r_*\ell,\quad a_*=\log b,\quad
+ m=\left\lceil\frac{a_*-r}{h}\right\rceil,\quad
+ \omega=\frac{a_*-r}{m},\quad a_i=r+i\omega.
+\end{equation}
+Then $h/2\le\omega\le h$ for large $n$. Let $I_0$ contain $j\le e^r$
+and $I_i$ contain $e^{a_{i-1}}<j\le e^{a_i}$, $1\le i\le m$,
+with integer endpoints interpreted by these inequalities. They partition
+$\{1,\ldots,b\}$. For the middle counts $q_i$ put
+\[
+ S_i=\sum_{j=1}^i q_j,\qquad Q=S_m.
+\]
+Their harmonic block masses satisfy
+\begin{equation}\label{eq:harmonic-widths}
+ H_i=\omega+O(e^{-a_{i-1}}),\qquad
+ \sum_{i=1}^m|H_i-\omega|=O(e^{-r}).
+\end{equation}
+
+Fix $D_0>0$, to be chosen in Lemma~\ref{lem:boxes}, and put
+\begin{equation}\label{eq:base-scale}
+ H_*^{\rm c}=\frac{r^2}{D_0\log\ell},\qquad
+ v_0=\left\lceil H_*^{\rm c}/\omega\right\rceil.
+\end{equation}
+Group the middle blocks dyadically from both ends. Start with $M=m$
+remaining blocks and $v=v_0$. While $M\ge6v$, remove one group of $v$
+blocks from each end of the remaining interval, and immediately replace
+$(M,v)$ by $(M-2v,2v)$. At termination $2v\le M<6v$. Divide the
+remaining blocks into $J_{\rm c}=\lceil M/(2v)\rceil$ consecutive groups,
+each containing $\lfloor M/J_{\rm c}\rfloor$ or $\lceil M/J_{\rm c}\rceil$
+blocks, placing the larger groups first. Order all groups from left to
+right. Set $i_0=0$, and let $i_j$ be the last fine index of group $j$,
+so that $i_B=m$. Write
+\[
+ \mathsf H_j=a_{i_j}-a_{i_{j-1}},\qquad
+ \mathsf Q_j=S_{i_j}-S_{i_{j-1}},\qquad 1\le j\le B.
+\]
+For large $n$ this deterministic construction gives
+\begin{equation}\label{eq:dyadic}
+ c\ell\le B\le C\ell,\quad
+ \mathsf H_j\ge H_*^{\rm c},\quad
+ \mathsf H_1,\mathsf H_B\in[H_*^{\rm c},2H_*^{\rm c}],\quad
+ 1/5\le\mathsf H_{j+1}/\mathsf H_j\le5.
+\end{equation}
+The bounds follow by summing a geometric progression and noting that
+$m/v_0\asymp L\log\ell/\ell^2$ with fixed-constant factors.
+Define
+\begin{equation}\label{eq:environment-E}
+ E_j=1+\mathsf H_j^{-1/2}
+ \max_{i_{j-1}\le i\le i_j}
+ |S_i-S_{i_{j-1}}-\kappa(a_i-a_{i_{j-1}})|.
+\end{equation}
+For fixed $\eta>0,K_E,C_E$, call the environment regular if
+\begin{equation}\label{eq:regular}
+ \frac\kappa2\omega\le q_i\le(\kappa+\eta)\omega\quad(1\le i\le m),
+ \qquad \max_jE_j\le K_E\sqrt{\log\ell},\qquad
+ \sum_jE_j^2\le C_E B.
+\end{equation}
+All constants here can be selected uniformly over the compact $\kappa$
+interval.
+
+\begin{lemma}[Regularity under exact cycle conditioning]\label{lem:regular}
+For each fixed $\eta>0$, constants $A_0,K_E,C_E$ can be chosen, independently
+of fixed $r_*,D_0$, such that under $\Pp_{n,k}$, with probability tending
+to one uniformly in $k$, the environment is regular,
+\[
+ Q_0\le C r,\qquad |L_*-\kappa T|\le T^{3/4}.
+\]
+In particular $L_*\le C\ell$. The threshold for $n$ may depend on the
+subsequently fixed $r_*,D_0$.
+\end{lemma}
+\begin{proof}
+By Proposition~\ref{prop:multinomial}, it suffices to prove these assertions
+for the multinomial vector \eqref{eq:multi-probs}. Each $q_i$ is binomial
+with mean $\kappa H_i$. A Chernoff bound and \eqref{eq:harmonic-widths},
+followed by a union bound over at most $L$ blocks, establish the first
+part of \eqref{eq:regular} when $A_0$ is large. The same bound gives
+$Q_0\le Cr$ with probability tending to one. The assertion about $L_*$
+was already proved.
+
+Here are details for the multiscale energy; conditioning a fixed number
+of trials must not be ignored. First form independent Poisson category
+counts with the same means $k p_i$. On a coarse group, the centered
+successive counts are independent-increment martingales. Exponential
+martingales give
+\[
+ \Pp(E_j>x)\le C e^{-cx^2}
+ \quad(2\le x\le c\sqrt{\mathsf H_j}),
+\]
+uniformly, with the negligible deterministic discrepancies in
+\eqref{eq:harmonic-widths} absorbed. The union bound over $B=O(\ell)$
+yields the desired maximum bound for a sufficiently large constant.
+Doob's fourth-moment inequality and
+$\E(\Poi(\mu)-\mu)^4=\mu+3\mu^2$ give
+$\sup_j\E E_j^4\le C$. Different coarse groups are independent.
+Hence Chebyshev's inequality shows $\sum E_j^2\le C_E B$ with failure
+probability $O(B^{-1})$ when $C_E$ is sufficiently large.
+
+To pass this elementary count estimate to a fixed number of trials,
+take an independent $N\sim\Poi(k)$ and one sequence of iid category
+labels of probabilities $(p_i)$. The first $N$ labels give the independent
+Poisson counts, and the first $k$ give the multinomial counts. Conditional
+on $D=|N-k|$, the differing labels are $D$ iid labels. If $D_j$ is their
+number in coarse group $j$, then
+\[
+ \E\left[\sum_j\frac{D_j^2}{\mathsf H_j}\,\middle|\,D\right]
+ \le C\left(\frac{DB}{L}+\frac{D^2}{L}\right).
+\]
+Indeed that category has probability
+$\mathsf H_j/L+O(e^{-r}/L)$; use its binomial second moment and
+\eqref{eq:dyadic}. Since $\E D\le\sqrt k$ and $\E D^2=k$, the last
+sum is $O_{\Pp}(1)$. At every prefix of a coarse group the count change
+is at most $D_j$. Thus the squared Euclidean distance between the two
+vectors of $E_j$'s is $O_{\Pp}(1)$. Enlarging $K_E,C_E$ transfers their
+maximum and energy bounds, since $\sqrt{\log\ell}\to\infty$ and
+$B\to\infty$. This use of Poisson variables is only a proof of a
+multinomial count inequality. There is no comparison of spectral fields
+or rare high-point probabilities at this step.
+
+% BEGIN EXPANSION count_coupling
+\paragraph{Quantitative effect of fixing the number of trials.}
+The preceding coupling controls all prefixes simultaneously.
+Write $p_j^{\rm c}$ for the probability that one category label
+lies in coarse group $j$. For large $n$,
+$p_j^{\rm c}\le C\mathsf H_j/L$ and
+$\sum_jp_j^{\rm c}\le1$. Conditional on $D$, each $D_j$ is
+binomial with parameters $D,p_j^{\rm c}$, even though the $D_j$
+are not independent. Hence, without using independence among them,
+\[
+ \begin{split}
+ \E\left[\sum_j\frac{D_j^2}{\mathsf H_j}\,\middle|\,D\right]
+ &\le D\sum_j\frac{p_j^{\rm c}}{\mathsf H_j}
+       +D^2\sum_j\frac{(p_j^{\rm c})^2}{\mathsf H_j}\\
+ &\le CDB/L+CD^2/L.
+ \end{split}
+\]
+Since $N$ is independent of the entire label sequence, the labels
+between indices $\min(N,k)+1$ and $\max(N,k)$ remain iid after
+conditioning on $N$, hence after conditioning on $D$ for this
+calculation. Also $\E D^2=\Var N=k$ and
+$\E D\le\sqrt{k}$. The expectation of this energy is bounded
+uniformly because $B=O(\ell)$ and $k\asymp L$.
+
+Let $\widetilde E_j$ and $E_j$ be the Poisson and multinomial
+environments in this one coupling, with the same deterministic
+centering. The elementary inequality
+$|\max_i|u_i|-\max_i|v_i||\le\max_i|u_i-v_i|$ gives
+\[
+ |E_j-\widetilde E_j|\le D_j/\sqrt{\mathsf H_j},
+ \qquad
+ \sum_j E_j^2\le2\sum_j\widetilde E_j^2
+                         +2\sum_jD_j^2/\mathsf H_j.
+\]
+Markov's inequality makes the second sum $o_{\Pp}(B)$, and its
+square root $o_{\Pp}(\sqrt{\log\ell})$. Enlarging the two fixed
+constants in the Poisson bounds therefore yields both parts of
+\eqref{eq:regular} for the multinomial vector. No conditioning
+estimate is divided by $\Pp(N=k)$, which would lose a factor
+of order $\sqrt L$.
+% END EXPANSION count_coupling
+
+\end{proof}
+
+\subsection{Dyadic boxes instead of an assumed barrier theorem}
+Let $G=g_*\ell$, $s=s_\kappa$, and $\lambda=\lambda(s)$. Define
+\begin{equation}\label{eq:frontier}
+ F_i=\frac{a_i+\lambda S_i}{s},\qquad
+ y=\frac{a_*-r+\lambda Q}{s},\qquad B_i=F_i-G.
+\end{equation}
+In each fine block convolve $q_i$ copies of $f_s$ and one independent
+noise of modulus at most $L^{-10}$. Write $W_i$ for the cumulative height
+through block $i$. Let
+\begin{equation}\label{eq:path-weight}
+ \mathcal A=\{W_i\le B_i\ (1\le i\le m),\quad y\le W_m\le y+1\},
+ \qquad
+ p_L=\E_s[e^{-s(W_m-y)}\ind_{\mathcal A}].
+\end{equation}
+This expectation is simply the integral of a product of the positive
+convolution kernels, with the stated projections.
+
+\begin{lemma}[Polynomial lower mass for the constrained kernel]
+\label{lem:boxes}
+There exist $D_0,C_*<\infty$, depending on the compact $\kappa$ interval
+and on $A_0,K_E,C_E$, with the following property. For all fixed $g_*,r_*$
+satisfying
+\begin{equation}\label{eq:rg}
+ r_*\ge64 s_{\max}g_*+1,\qquad
+ s_{\max}=\max_{\kappa\in[\kappa_-,\kappa_+]}s_\kappa,
+\end{equation}
+and all regular environments, uniformly for large $n$,
+\begin{equation}\label{eq:polynomial-cost}
+ p_L\ge L^{-C_*}.
+\end{equation}
+The constants $D_0,C_*$ do not depend on the fixed $g_*,r_*$. The
+threshold for $n$ is allowed to depend on them.
+\end{lemma}
+\begin{proof}
+We exhibit a lower bound for a product of killed kernels; no adaptive
+random-environment measure is an input. Temporarily omit the noises.
+Choose a large constant $B_0$. At a nonterminal coarse endpoint define
+\[
+ \gamma_j=4G+B_0(\sqrt{\mathsf H_j}E_j+
+                         \sqrt{\mathsf H_{j+1}}E_{j+1}),
+ \qquad z_j=F_{i_j}-\gamma_j \quad(1\le j<B).
+\]
+At the two ends take
+\[
+ z_0=0,\quad\gamma_0=r/s;\qquad
+ z_B=y+\tfrac12,\quad\gamma_B=r/s-\tfrac12.
+\]
+Let the intermediate endpoint boxes be
+$\mathcal I_j=[z_j-\sqrt{\mathsf H_j},z_j+\sqrt{\mathsf H_j}]$,
+$1\le j<B$, and let $\mathcal I_B=[z_B-1/10,z_B+1/10]$.
+The initial box is the singleton $\{0\}$.
+
+Choose $B_0$ to dominate the bridge width in Lemma~\ref{lem:bridge},
+the neighboring-width ratio five, and the constants in the next
+interpolation calculation. Choose $D_0$ so large that
+\[
+ C B_0 K_E\sqrt{2/D_0}<1/(8s_{\max}),
+\]
+where $C$ is a fixed constant large enough for those same bounds.
+By \eqref{eq:rg}, both endpoint gaps then dominate $4G$ plus the required
+multiple of $E_1\sqrt{\mathsf H_1}$ or
+$E_B\sqrt{\mathsf H_B}$, for large $n$. Indeed these products are at
+most $K_E r\sqrt{2/D_0}$, whereas $r/s\ge r/s_{\max}$.
+
+Consider group $j$ and any $x\in\mathcal I_{j-1}$,
+$x'\in\mathcal I_j$. Put $d=x'-x$ and $q=\mathsf Q_j$.
+The critical identity $s\lambda'(s)-\lambda=1/\kappa$ gives
+\begin{equation}\label{eq:box-drift}
+ d-q\lambda'(s)
+ =\frac{\mathsf H_j-q/\kappa}{s}
+   -(\gamma_j-\gamma_{j-1})+(e_j-e_{j-1}),
+\end{equation}
+where $e_j=x'-z_j$ and $e_{j-1}=x-z_{j-1}$.
+Use $E_0=E_{B+1}=1$ when needed. Uniformly over these boxes,
+\begin{equation}\label{eq:Ub}
+ |d-q\lambda'(s)|\le C\sqrt{\mathsf H_j}\,U_j,
+ \quad
+ U_j=1+E_{j-1}+E_j+E_{j+1}
+       +\frac r{\sqrt{\mathsf H_j}}\ind_{\{j=1\text{ or }j=B\}}.
+\end{equation}
+For interior groups the $4G$ terms cancel exactly. At the boundary they
+are bounded by a constant times $r$. Moreover $q\asymp\mathsf H_j$,
+$\max_j U_j/\sqrt{\mathsf H_j}=O(\log\ell/r)=o(1)$, and
+\begin{equation}\label{eq:box-energy}
+ \sum_{j=1}^B U_j^2
+ \le C\left(B+\sum_jE_j^2+\frac{r^2}{H_*^{\rm c}}\right)
+ \le C\ell.
+\end{equation}
+The last constant is independent of $g_*,r_*$, since
+$r^2/H_*^{\rm c}=D_0\log\ell$.
+
+We verify the path restriction before using its density. At a fine
+endpoint $i$ in this group, set
+$f=(S_i-S_{i_{j-1}})/q$. The straight line in sample count joining $x$
+to $x'$ has gap below $F_i$ equal to
+\begin{equation}\label{eq:chord-gap}
+ (1-f)(\gamma_{j-1}-e_{j-1})+f(\gamma_j-e_j)
+       +\frac{a_i-a_{i_{j-1}}-f\mathsf H_j}{s}.
+\end{equation}
+If $D_i=S_i-S_{i_{j-1}}-\kappa(a_i-a_{i_{j-1}})$, the numerator
+in its final term is
+\[
+ \frac{(a_i-a_{i_{j-1}})D_{i_j}-\mathsf H_jD_i}{q}.
+\]
+It has modulus at most $CE_j\sqrt{\mathsf H_j}$.
+Our choices of gaps, $B_0,D_0$ make \eqref{eq:chord-gap} exceed
+$2G+W\sqrt q$ at every such endpoint. Hence a bridge lying within
+$W\sqrt q$ of that straight line stays below $F_i-2G$ at all fine
+endpoints.
+
+For each fixed pair $x,x'$, solve the deterministic saddle equation
+$\lambda'(\beta)=d/q$. It has a solution near $s$, uniformly by
+\eqref{eq:Ub}, and the compactness needed in Lemma~\ref{lem:bridge}
+holds. That lemma gives the following \emph{pointwise} lower bound for
+the group convolution density, killed at any violated fine barrier:
+\begin{equation}\label{eq:killed-minorization}
+ K_j(x,x')\ge c\mathsf H_j^{-1/2}\exp(-CU_j^2),
+ \qquad x\in\mathcal I_{j-1},\quad x'\in\mathcal I_j.
+\end{equation}
+This step chooses a saddle for each density evaluation; it does not
+assert that the random increments follow a preassigned adaptive law.
+
+Multiply \eqref{eq:killed-minorization} and integrate all intermediate
+endpoints over their boxes. Their widths $2\sqrt{\mathsf H_j}$ cancel
+the respective density factors. Only the last, fixed-width endpoint
+window leaves a factor $\mathsf H_B^{-1/2}$. Thus the mass of paths
+satisfying the stronger barriers and ending in $\mathcal I_B$ is at least
+\[
+ c^B\mathsf H_B^{-1/2}\exp\left(-C\sum_jU_j^2\right)\ge L^{-C_*}.
+\]
+Indeed $B=O(\ell)$, \eqref{eq:box-energy} holds, and
+$\log\mathsf H_B=O(\log\ell)+O(\log r_*)=o(\ell)$ for each fixed $r_*$.
+Finally all noises together change any height by at most $mL^{-10}\le
+L^{-9}$. The strict barrier margins and the endpoint interval
+$[y+2/5,y+3/5]$ absorb them. On \eqref{eq:path-weight} the terminal
+weight is at least $e^{-s}$. Increasing $C_*$ proves
+\eqref{eq:polynomial-cost}.
+
+% BEGIN EXPANSION box_integration
+\paragraph{Endpoint costs and the order of constants.}
+We give the bookkeeping behind the two cancellations just used.
+From regularity,
+$|q-\kappa\mathsf H_j|\le E_j\sqrt{\mathsf H_j}$.
+Furthermore
+$\max_j E_j/\sqrt{\mathsf H_j}
+ \le K_E\sqrt{D_0}\log\ell/r=o(1)$.
+Thus $q/\mathsf H_j$ lies, for all large $n$, in a positive compact
+interval determined by the original $\kappa$ interval. This bound
+comes from the coarse environment energy; it does not require
+any further restriction on the fine-count upper tolerance.
+
+The interior gap differences in \eqref{eq:box-drift} involve at
+most three neighboring $E$'s. Adjacent square-root widths have
+ratios between $1/\sqrt5$ and $\sqrt5$. The inequality
+$(t_1+\cdots+t_5)^2\le5\sum_{\nu=1}^5t_\nu^2$, applied to
+\eqref{eq:Ub} and then summed in $j$, consequently gives
+\[
+ \sum_jU_j^2
+ \le C\left(B+\sum_jE_j^2+
+                     r^2/\mathsf H_1+r^2/\mathsf H_B\right)
+ \le C(1+C_E)B+2CD_0\log\ell.
+\]
+Every interior $E_j^2$ is counted at most three times. Also
+$U_j/\sqrt{\mathsf H_j}=o(1)$ uniformly, including the two
+boundary terms $r/\mathsf H_j\le D_0\log\ell/r$. These bounds
+justify use of the fixed near-mean neighborhood from
+Lemma~\ref{lem:bridge} for every pair of box endpoints.
+
+For the path inclusion, write
+$\tau=a_i-a_{i_{j-1}}$ and $D_i=S_i-S_{i_{j-1}}-\kappa\tau$.
+Since $q=\kappa\mathsf H_j+D_{i_j}$, elementary cancellation gives
+\[
+ \tau-\frac{\kappa\tau+D_i}{q}\mathsf H_j
+   =\frac{\tau D_{i_j}-\mathsf H_jD_i}{q}.
+\]
+Here $0\le\tau\le\mathsf H_j$ and both deviations are at most
+$E_j\sqrt{\mathsf H_j}$ in modulus. This is the error charged
+against the two adjacent endpoint gaps in \eqref{eq:chord-gap}.
+At the initial and final endpoints the additional gap $r/s$
+supplies the same margin by the choice of $D_0$ and \eqref{eq:rg}.
+The final endpoint is centered at $y+1/2$, so its gap is
+$r/s-1/2$, exactly as specified above.
+
+Tonelli's theorem and the independence of disjoint groups identify
+the constrained endpoint-chain mass with the iterated integral
+of their killed kernels. The quantitative lower bound for that
+integral is
+\[
+ \left(\prod_{j=1}^B c\mathsf H_j^{-1/2}e^{-CU_j^2}\right)
+ \left(\prod_{j=1}^{B-1}2\sqrt{\mathsf H_j}\right)\frac15
+ =\frac{2^{B-1}c^B}{5}\,
+       \mathsf H_B^{-1/2}e^{-C\sum_jU_j^2}.
+\]
+Taking logarithms leaves a loss at most
+$C'B+C''\sum_jU_j^2+\tfrac12\log\mathsf H_B+C'''$.
+The coefficient of $\ell$ in this bound can be fixed before
+$g_*,r_*$: $B\le C\ell$ with a fixed coefficient, the energy is
+bounded as above, and
+$\log\mathsf H_B=O(\log\ell)+O(|\log r_*|+|\log D_0|)$.
+Only the threshold for $n$ changes when these fixed parameters
+change. Finally one can first fix any noise vector satisfying
+the coordinate bound, apply the deterministic margin argument,
+and then integrate that vector. Thus this lower bound even
+allows dependence among the noise coordinates; the noise vector
+is still sampled independently of the increment path.
+% END EXPANSION box_integration
+
+\end{proof}
+
+\begin{remark}[Why the exponent is logarithmic]
+A separate fixed-width endpoint condition in every coarse group would
+produce $\prod_j\mathsf H_j^{-1/2}$ and a much larger logarithmic cost.
+The pointwise kernel estimate permits boxes of width
+$\sqrt{\mathsf H_j}$ and cancels all intermediate factors by integration.
+Only $\sum E_j^2$, not $B\max E_j^2$, is charged. These two facts are
+essential to the precision in Theorem~\ref{thm:main}.
+\end{remark}
+
+\section{Fourier remainders for the marked height kernels}
+\label{sec:fourier}
+These estimates concern only the explicitly evaluated kernels
+\eqref{eq:measure-block}. The coefficient-reservoir theorem is what
+allows them to be used under the original size and cycle constraints.
+
+\subsection{Fourier regularity and arithmetic separation}
+For $\Ree z>0$ put $\phi_z(t)=|1-e(t)|^z$, set its value at an integer
+to zero, and use the real logarithm of $|1-e(t)|$ off the integers.
+Use the convention $\widehat\phi_z(j)=\int_\T\phi_z(t)e(-jt)\dd t$.
+For $s>0$ its Fourier coefficients are
+\begin{equation}\label{eq:fourier-real}
+ \widehat\phi_s(j)
+ =\frac{(-1)^j\Gamma(1+s)}
+ {\Gamma(1+s/2-j)\Gamma(1+s/2+j)}.
+\end{equation}
+The formula follows from the beta integral; alternatively the
+denominator-free recurrence
+$(s/2+j)\widehat\phi_s(j)=-(1+s/2-j)\widehat\phi_s(j-1)$ for $j\ge1$,
+together with $\widehat\phi_s(0)=A(s)$ and
+$\widehat\phi_s(-j)=\widehat\phi_s(j)$, determines the coefficients.
+Reciprocal gamma zeros are interpreted literally.
+
+\begin{lemma}[Uniform Fourier tail]\label{lem:fourier}
+Fix $0<p_-<p_+<\infty$ and $0<\alpha<\min(p_-,1)$. For
+$p\in[p_-,p_+]$, $u\in\R$, and every $R>0$,
+\begin{equation}\label{eq:fourier-tail}
+ \sum_j|\widehat\phi_{p+iu}(j)|\le C(1+|u|)^2,
+ \qquad
+ \sum_{|j|>R}|\widehat\phi_{p+iu}(j)|
+ \le C(1+|u|)^2 R^{-\alpha}.
+\end{equation}
+\end{lemma}
+\begin{proof}
+The function is absolutely continuous and its derivative is integrable,
+since near an integer its magnitude is bounded by
+$C(1+|u|)|t|^{p_--1}$. Split an $L^1$ translation difference of the
+derivative at distance $h$ from the integers. Within that distance its
+integral is at most $C(1+|u|)h^{p_-}$. Away from it, integrate the second
+derivative bound $C(1+|u|)^2(|t|^{p_--2}+1)$ over the translation path.
+This gives
+\[
+ \|\phi'_{p+iu}(\cdot+h)-\phi'_{p+iu}\|_1
+ \le C(1+|u|)^2 h^\alpha.
+\]
+The smaller exponent $\alpha$ absorbs the logarithm at $p_-=1$.
+Use $h=1/(2|j|)$ in the Fourier coefficient of this difference, and
+$\widehat{\phi'}(j)=2\pi ij\widehat\phi(j)$. It follows that
+$|\widehat\phi_{p+iu}(j)|\le C(1+|u|)^2|j|^{-1-\alpha}$ for $j\ne0$.
+The zero coefficient is bounded by $A(p)$. Summation proves the lemma.
+\end{proof}
+
+For a nonempty harmonic block $I(a,c)=\{j:e^a<j\le e^c\}$ let
+$H=\sum_{j\in I(a,c)}1/j$ and define
+\[
+ B_{a,c}(\boldsymbol z;\boldsymbol t)
+ =\frac1H\sum_{j\in I(a,c)}\frac1j
+                   \prod_{v=1}^d\phi_{z_v}(jt_v),\qquad d=1,2.
+\]
+Summation by parts in a geometric progression yields
+\begin{equation}\label{eq:abel}
+ \left|\sum_{j\in I(a,c)}\frac{e(ju)}j\right|
+       \le\frac{Ce^{-a}}{\|u\|_\T}\quad(u\notin\Z).
+\end{equation}
+It follows from Lemma~\ref{lem:fourier} that whenever
+\begin{equation}\label{eq:separation}
+ \|k_1t_1+\cdots+k_dt_d\|_\T\ge e^{-a+\Delta}
+ \quad(0\ne\boldsymbol k\in\Z^d,\ |k_v|\le R),
+\end{equation}
+$\Ree z_v\in[p_-,p_+]$, and $|\Im z_v|\le T_0$, one has
+\begin{equation}\label{eq:B-error}
+ \left|B_{a,c}(\boldsymbol z;\boldsymbol t)-\prod_v A(z_v)\right|
+ \le C(1+T_0)^{2d}\left(R^{-\alpha}+\frac{e^{-\Delta}}H\right).
+\end{equation}
+To see this, expand the absolutely convergent Fourier series. The zero
+vector contributes the stated product. On the box $|k_v|\le R$ use
+\eqref{eq:abel}; off it use one tail estimate and the remaining absolute
+Fourier norms. This also proves uniformity when the observation points
+move with $n$, subject only to \eqref{eq:separation}.
+
+\subsection{Smoothed kernel comparison with relative-event accuracy}
+\begin{lemma}[Polynomially accurate kernel comparison]\label{lem:smooth}
+For each fixed $J>0$ there are positive constants $u_1,u_2,u_3$ such that
+the following holds, uniformly in the compact $\kappa$ interval. Put
+\begin{equation}\label{eq:smooth-params}
+ \delta=L^{-10},\quad T_0=L^{u_1},\quad
+ R=\lceil L^{u_2}\rceil,\quad\Delta=u_3\ell.
+\end{equation}
+In a fine block with $q\asymp\omega\asymp\ell$, take $q$ harmonic samples
+and their $d$ log-sine sums $X_v$, $d=1,2$. Suppose \eqref{eq:separation}
+holds. Tilt their joint height measure by $e^{s\sum_vX_v}$ and normalize.
+Add independently to each coordinate a noise $\zeta$ which is the sum
+of ten uniforms on $[-\delta/10,\delta/10]$. This normalized smoothed
+measure differs in total variation by at most $L^{-J}$ from $d$
+independent copies of $f_s^{*q}$ convolved with that noise. Also
+\begin{equation}\label{eq:normalizer}
+ B_{a,c}(s,\ldots,s;\boldsymbol t)^q
+       =A(s)^{dq}\{1+O(L^{-J})\}.
+\end{equation}
+\end{lemma}
+\begin{proof}
+Choose a positive $\alpha<\min(s_{\min}/2,1)$, and apply
+\eqref{eq:B-error} to a real tilt interval containing $s/2,s$ and $3s/2$
+for every possible $s$. The characteristic function of the tilted vector
+is
+\[
+ \left\{\frac{B_{a,c}(s+it_1',\ldots,s+it_d';\boldsymbol t)}
+ {B_{a,c}(s,\ldots,s;\boldsymbol t)}\right\}^{q}.
+\]
+On $[-T_0,T_0]^d$ compare it with
+$\{\prod_v A(s+it_v')/A(s)^d\}^{q}$.
+The normalized quantities have modulus at most one, so their $q$th
+powers differ by at most
+$Cq(1+T_0)^{2d}(R^{-\alpha}+e^{-\Delta}/H)$.
+The real denominator is bounded away from zero for large $n$.
+
+The noise transform has modulus at most
+$\min(1,C(\delta|t|)^{-10})$. Fourier inversion bounds the uniform
+density error inside the frequency box by
+$CT_0^d q(1+T_0)^{2d}(R^{-\alpha}+e^{-\Delta}/H)$; outside it the
+bound is $C\delta^{-d}(\delta T_0)^{-9}$. For example, first choose
+$u_1$ with $9u_1>J+160$, then $u_2,u_3$ with
+\[
+ \alpha u_2>6u_1+J+30,\qquad u_3>6u_1+J+30.
+\]
+The density error is then $O(L^{-J-10})$.
+On $[-L^2,L^2]^d$ integration costs at most $O(L^4)$. Outside this
+spatial box positive tails vanish, since $X_v\le q\log2$. Under the
+tilt, a negative tail is at most
+\[
+ e^{-sL^2/3}
+ \left\{\frac{B_{a,c}(s/2,s,\ldots,s;\boldsymbol t)}
+ {B_{a,c}(s,\ldots,s;\boldsymbol t)}\right\}^{q}
+ \le e^{-cL^2}.
+\]
+The ratio is bounded by \eqref{eq:B-error}; the reference measures have
+the same tail bound. This proves the total variation assertion.
+\eqref{eq:normalizer} follows from the real version of \eqref{eq:B-error},
+increasing the fixed exponents if necessary. Atoms at $-\infty$ have
+zero tilted mass. No total variation comparison with a continuous kernel
+is asserted before smoothing.
+
+% BEGIN EXPANSION smoothing_budget
+\paragraph{Frequency tails, normalization, and product errors.}
+To make the frequency estimate explicit, let $h_\delta$ be the
+characteristic function of the sum of the ten uniforms. Direct
+integration of a uniform variable gives
+\[
+ h_\delta(t)=
+ \left(\frac{\sin(\delta t/10)}{\delta t/10}\right)^{10},
+ \qquad
+ \int_\R|h_\delta(t)|\dd t\le C\delta^{-1}.
+\]
+The ratio at zero is interpreted as one. For $\delta T_0\ge1$,
+\[
+ \int_{|t|>T_0}|h_\delta(t)|\dd t
+ \le C\delta^{-1}(\delta T_0)^{-9}.
+\]
+For $d=1,2$, the complement of the frequency cube is covered by
+the $d$ events $|t_v|>T_0$. Integrating the product noise transform
+and using these two bounds gives
+$C\delta^{-d}(\delta T_0)^{-9}$. Both normalized characteristic
+functions have modulus at most one, which justifies this bound
+for their difference as well. With $\delta=L^{-10}$ its worst
+exponent, at $d=2$, is $110-9u_1$. Inside the cube the exponent is
+at most $6u_1+1-\min(\alpha u_2,u_3)$, using $q\le L$ and $H\ge1$.
+The stated choices make both bounds smaller than $L^{-J-10}$
+after absorbing fixed constants. The integration volume
+$O(L^4)$ then remains within the total variation budget.
+
+The normalizer is controlled separately from this total
+variation estimate. If a real block normalizer is
+$A(s)^d(1+e_i)$, its relative error tends to zero uniformly, and
+$|e_i|\le1/2$ for large $n$. The inequality
+$|\log(1+e_i)|\le2|e_i|$ shows that raising it to the $q_i$th
+power costs at most $2q_i|e_i|$ in its logarithm. The frequency
+exponents can be increased once so that the desired
+$L^{-J}$ bound includes this factor. On multiplying the fine
+block normalizers the logarithmic errors add.
+
+For normalized probability kernels $\mu_i,\nu_i$, changing
+one factor at a time in their product proves
+\[
+ \left|\int F\dd\bigotimes_{i=1}^m\mu_i
+       -\int F\dd\bigotimes_{i=1}^m\nu_i\right|
+ \le\sum_{i=1}^m\|\mu_i-\nu_i\|_{\TV},
+ \qquad 0\le F\le1.
+\]
+One may take total variation here to be the supremum over
+tests in $[0,1]$; the $L^1$ density bound also bounds this
+quantity. In each telescoping term the other factors are
+probability measures, so the same inequality applies however
+many coordinates the path test $F$ examines. For the present
+kernels the resulting bound is $mL^{-J}$, with the same
+choice of exponents for one and two observation points.
+% END EXPANSION smoothing_budget
+
+\end{proof}
+
+\subsection{An integrated bound for every arithmetic arc}
+For $s>0$ define
+\begin{equation}\label{eq:bs}
+ b_s=\begin{cases}0,&0<s\le2,\\
+ (s-1)\log2-\lambda(s),&s>2.
+ \end{cases}
+\end{equation}
+\begin{lemma}[Entropy gap and a block envelope]\label{lem:entropy}
+At $s=s_\kappa$ one has $\kappa b_s<1$, with a uniform strict gap on
+the compact $\kappa$ interval. For every block,
+\begin{equation}\label{eq:envelope}
+ B_{a,c}(s;t)\le A(s)\exp\{b_s+C/H\}\quad(t\in\T).
+\end{equation}
+\end{lemma}
+\begin{proof}
+For an arbitrary interval of positive integers,
+$\sum\cos(2\pi ju)/j\ge-C$, uniformly in $u$. Indeed the cosines are
+nonnegative up to $(6\|u\|_\T)^{-1}$; the remaining sum is bounded by
+\eqref{eq:abel} starting at that cutoff. If the cutoff is below one,
+start at one, and if $u$ is integral the sum is positive.
+For $0<s\le2$, all nonzero coefficients in \eqref{eq:fourier-real} are
+nonpositive. Pairing them and applying the preceding lower bound gives
+$B_{a,c}(s;t)\le A(s)+C/H$. For $s>2$ use
+$\phi_s\le2^{s-2}\phi_2$, giving $B_{a,c}(s;t)\le2^{s-1}+C/H$.
+This proves \eqref{eq:envelope}.
+
+The gamma duplication formula and the integral for the difference of two
+digamma functions give
+\[
+ \log2-\lambda'(s)=\int_0^\infty\frac{e^{-sx}}{1+e^x}\dd x,
+ \qquad 0<s(\log2-\lambda'(s))<\tfrac12.
+\]
+For example, the integral follows by subtracting the two logarithmic
+derivatives in the duplication formula and expanding
+$(1+e^x)^{-1}$, or directly integrating the convergent digamma difference.
+Thus for $s>2$, \eqref{eq:critical} gives
+\[
+ \kappa b_s=1+\kappa\{s(\log2-\lambda'(s))-\log2\}<1.
+\]
+For $s\le2$ the assertion is immediate. Continuity and compactness make
+the gap uniform.
+\end{proof}
+
+Choose $\eta>0$ so small that $(\kappa+\eta)b_{s_\kappa}<1$ uniformly.
+Use this value in \eqref{eq:regular}. If $X_i(t)$ denotes the harmonic
+height sum in fine block $i$ and $X_{\rm mid}=\sum_iX_i$, then
+\begin{lemma}[Integrated middle moment]\label{lem:integrated}
+For sufficiently large fixed $r_*$ (as specified below), uniformly over
+regular count vectors,
+\begin{equation}\label{eq:integrated}
+ \E\int_\T e^{sX_{\rm mid}(t)}\dd t\le A(s)^Q\{1+o(1)\}.
+\end{equation}
+The expectation here is evaluation of the normalized product of harmonic
+kernels, not an assumption about independence in the original Ewens law.
+\end{lemma}
+\begin{proof}
+Let $d_R(t)=\min_{1\le|j|\le R}\|jt\|_\T$.
+For $d_R(t)\ge e^{-r+\Delta}$ every block is separated and
+\eqref{eq:normalizer} gives $A(s)^Q(1+o(1))$.
+Partition the other points according to
+\[
+ e^{-a_k+\Delta}\le d_R(t)<e^{-a_{k-1}+\Delta},\quad1\le k\le m,
+\]
+including all smaller distances in class $m$. That class has measure at
+most $CR e^{-a_{k-1}+\Delta}$. Blocks after $k$ are separated.
+Using \eqref{eq:envelope}, $q_i\le(\kappa+\eta)\omega$, and
+$\omega\to\infty$, there is a fixed $\rho<1$ such that
+\[
+ \prod_{i\le k}B_{a_{i-1},a_i}(s;t)^{q_i}
+ \le A(s)^{S_k}e^{\rho(a_k-r)}.
+\]
+The per-block $Cq_i/H_i$ errors contribute $O(k)$, which is absorbed
+by the uniform strict gap since $a_k-r=k\omega$.
+The suffix contributes $A(s)^{Q-S_k}(1+o(1))$; no suffix is required for
+$k=m$. The normalized integral over all these classes is at most
+\[
+ C L^{u_2+u_3}e^{-r+\rho\omega}
+ \sum_{k=1}^m e^{-(1-\rho)(a_{k-1}-r)}=o(1)
+\]
+when $r_*>u_2+u_3+A_0+2$. The geometric sum is bounded.
+\end{proof}
+
+\section{Closing the maximum bounds inside the exact coefficients}
+\label{sec:maximum}
+
+\subsection{Order of constants}
+All choices are uniform over the fixed interval of $\kappa$. Choose
+$\eta$ from Lemma~\ref{lem:entropy}, then $A_0,K_E,C_E$ from
+Lemma~\ref{lem:regular}. Select $D_0,C_*$ in Lemma~\ref{lem:boxes}.
+Next fix $J>2C_*+12$ and select $u_1,u_2,u_3$ from
+Lemma~\ref{lem:smooth}. Finally take $g_*,r_*$ so large that
+\begin{align}\label{eq:constant-order}
+ s_{\min}g_*&>2u_2+u_3+A_0+2C_*+12,\\
+ r_*&>64s_{\max}g_*+1,\qquad
+ r_*>2u_2+u_3+A_0+12.\nonumber
+\end{align}
+This is not circular: Lemma~\ref{lem:boxes} explicitly made $C_*$
+independent of the last two constants. Throughout this section the count
+vector is regular, until its probability is restored at the end.
+
+\subsection{A first and relative second kernel calculation}
+Let the harmonic product measure at fixed counts be denoted by $\E_H$.
+Define
+\[
+ \mathcal D_L=\{t\in\T:\|jt\|_\T\ge e^{-r+\Delta},\ 1\le |j|\le R\}.
+\]
+Its complement has measure at most $CR e^{-r+\Delta}=o(1)$.
+The following lower bound is uniform over every measurable
+$\mathcal D\subset\mathcal D_L$ of measure at least $1/2$.
+Let $\zeta_i$ be independent noises as in Lemma~\ref{lem:smooth}, put
+$U_\zeta=\sum_i\zeta_i$, and define a nonnegative functional of the
+actual harmonic samples by
+\begin{equation}\label{eq:Z}
+ Z(t)=\E_\zeta\left[e^{-sU_\zeta}
+  \ind_{\{(\sum_{j\le i}(X_j(t)+\zeta_j))_{i\le m}\in\mathcal A\}}
+                \right],\qquad Z_{\mathcal D}=\int_{\mathcal D}Z(t)\dd t.
+\end{equation}
+The event $\mathcal A$ is exactly \eqref{eq:path-weight}; the notation
+means its cumulative-height inequalities. If $Z_{\mathcal D}>0$, then
+some actual point in $\mathcal D$ has middle height at least $y-m\delta$.
+The noises are auxiliary integrations, not alterations of the final
+spectral field.
+
+For $t\in\mathcal D_L$, tilt each fine height kernel by $e^{sX_i(t)}$.
+The normalizer is $A(s)^Q(1+o(1))$. The noise factor in \eqref{eq:Z}
+combines with the inverse tilt to give the terminal weight
+$e^{-s\sum_i(X_i(t)+\zeta_i)}$. After removing $e^{-sy}$, the test
+function is bounded by one on $\mathcal A$.
+Telescoping the product of the normalized smoothed measures gives error
+at most $mL^{-J}$. Since $m\le L$ and $p_L\ge L^{-C_*}$,
+\begin{equation}\label{eq:rare-accuracy}
+ mL^{-J}=o(p_L^2),
+\end{equation}
+not just $o(1)$. Lemma~\ref{lem:smooth} therefore gives uniformly in $t$
+\begin{equation}\label{eq:first-moment}
+ \E_H Z(t)=(1+o(1))\mu_Lp_L,\qquad
+ \mu_L=e^{-sy+\lambda Q}=e^{-a_*+r}.
+\end{equation}
+Consequently $\E_H Z_{\mathcal D}=(1+o(1))\Leb(\mathcal D)\mu_Lp_L$.
+
+For a pair define
+\[
+ d_R(t,u)=\min_{\substack{(j,l)\in\Z^2\setminus\{(0,0)\}\\|j|,|l|\le R}}
+                         \|jt+lu\|_\T.
+\]
+If $d_R(t,u)\ge e^{-r+\Delta}$, apply the two-point comparison in every
+block. The reference kernels at the two points are independent, including
+independent noise vectors in the two copies of \eqref{eq:Z}. Thus
+\begin{equation}\label{eq:far-pair}
+ \E_H[Z(t)Z(u)]=(1+o(1))\mu_L^2p_L^2
+\end{equation}
+uniformly over these far pairs. Equation~\eqref{eq:rare-accuracy} is
+what makes this relative statement valid.
+
+% BEGIN EXPANSION first_far_moments
+\paragraph{The bounded tests after the change of measure.}
+Let $\mathcal N_t$ be the product of the one-point block
+normalizers and let $\widetilde\Pp_t$ be the corresponding
+product tilted law, before adjoining the noises. Set
+$\widetilde W_i=\sum_{j\le i}(X_j(t)+\zeta_j)$. The exact
+identity, with no asymptotic comparison yet, is
+\[
+ \E_H Z(t)=
+ e^{-sy}\mathcal N_t\,
+ \widetilde\E_{t,\zeta}
+       [e^{-s(\widetilde W_m-y)}\ind_{\mathcal A}].
+\]
+Indeed the inverse tilt contributes
+$e^{-s\sum_iX_i(t)}$, and the factor
+$e^{-sU_\zeta}$ in $Z(t)$ supplies the missing noise sum.
+On $\mathcal A$, $0\le\widetilde W_m-y\le1$, so the
+bracketed test lies in $[0,1]$. Replacing its smoothed tilted
+product law by the reference law costs at most $mL^{-J}$.
+The reference expectation is the same $p_L$ for every $t$.
+The remaining prefactor is
+$e^{-sy}A(s)^Q(1+o(1))=\mu_L(1+o(1))$.
+
+For a far pair use the joint tilt
+$e^{s\sum_i(X_i(t)+X_i(u))}$. In the product $Z(t)Z(u)$ the
+two noise integrals are independent copies. After inverse
+tilting the test is the product of two tests in $[0,1]$.
+The reference one-point paths are independent under the
+reference two-point law, so its expectation is exactly
+$p_L^2$. It is this reference independence, supplied by
+two-point Fourier separation, that is used in
+\eqref{eq:far-pair}. Since
+\[
+ \frac{mL^{-J}}{p_L}\le L^{1-J+C_*},
+ \qquad
+ \frac{mL^{-J}}{p_L^2}\le L^{1-J+2C_*},
+\]
+both errors tend to zero under the one chosen inequality
+$J>2C_*+12$. Relative normalizer errors also tend to zero.
+No lower bound on the unnormalized rare probability
+$\mu_Lp_L$ is used for the smoothing step; its exponential
+scale has already been extracted exactly.
+% END EXPANSION first_far_moments
+
+
+For non-far pairs let class $k$ be
+\[
+ e^{-a_k+\Delta}\le d_R(t,u)<e^{-a_{k-1}+\Delta},\quad1\le k\le m,
+\]
+including every smaller distance in class $m$. The measure of that
+class in $\T^2$ is at most
+\begin{equation}\label{eq:near-area}
+ CR^2 e^{-a_{k-1}+\Delta}.
+\end{equation}
+Every nonzero integer linear map from $\T^2$ to $\T$ preserves uniform
+measure, so a union bound over the $O(R^2)$ maps proves this estimate.
+Blocks after $k$ are two-point separated.
+
+On both noisy path events, the actual terminal sums are at least
+$y-m\delta$, whereas the prefix at $u$ through block $k$ is at most
+$B_k+m\delta$. Applying exponential Markov to the terminals and using
+that prefix bound yields
+\begin{align}\label{eq:near-moment}
+ \E_H[Z(t)Z(u)]
+ &\le e^{-2sy+sB_k+O(sm\delta)}
+    \E_H e^{s\sum_{i\le k}X_i(t)}
+    \E_H e^{s\sum_{i>k}(X_i(t)+X_i(u))}\\
+ &\le \exp\{-2sy+sB_k+\lambda S_k+2\lambda(Q-S_k)+o(1)\}.
+ \nonumber
+\end{align}
+The two factors in the first line use disjoint blocks, which are product
+kernels under $\E_H$. The prefix uses only one-point separation of
+$t\in\mathcal D_L$; it does not assume independence of the two
+unseparated prefixes. The suffix uses two-point separation after $k$.
+For $k=m$ it is exactly one. The bounded noise weights cause only the
+displayed $O(sm\delta)$ error.
+Since $sB_k=a_k+\lambda S_k-sG$, division by $\mu_L^2p_L^2$ gives
+\begin{equation}\label{eq:near-normalized}
+ \frac{\E_H[Z(t)Z(u)]}{\mu_L^2p_L^2}
+ \le C e^{a_k}L^{-s_{\min}g_*+2C_*}.
+\end{equation}
+Multiply by \eqref{eq:near-area} and sum over $m\le L$ classes.
+Because $a_k-a_{k-1}=\omega\le A_0\ell$, the normalized near contribution
+is at most
+\begin{equation}\label{eq:near-sum}
+ C L^{1+2u_2+u_3+A_0-s_{\min}g_*+2C_*}=o(1).
+\end{equation}
+Thus the exponential correlation bound and the arithmetic area cancel
+at the correct scale. The polynomial gap $G$ beats all remaining errors.
+
+The total measure of non-far pairs is $O(R^2e^{-r+\Delta})=o(1)$.
+Equations~\eqref{eq:first-moment}, \eqref{eq:far-pair}, and
+\eqref{eq:near-sum} show
+\[
+ \frac{\E_H Z_{\mathcal D}^2}{(\E_H Z_{\mathcal D})^2}\longrightarrow1
+\]
+uniformly over the stated environments and all choices of $\mathcal D$.
+Chebyshev's inequality proves
+\begin{equation}\label{eq:middle-lower}
+ \Pp_H\left(\sup_{t\in\mathcal D}X_{\rm mid}(t)
+             <\frac{a_*-r+\lambda Q}{s}-m\delta\right)=o(1).
+\end{equation}
+All integrals defining these functionals are justified by nonnegativity;
+$Z(t)\le e^{sm\delta}$. Singularities of the logarithm at roots have zero
+tilted mass and cannot create a high point.
+
+% BEGIN EXPANSION near_and_variance
+\paragraph{The last near class and the uniform second-moment conclusion.}
+The inequality for near pairs can be verified before taking
+any expectation. For fixed noises write $T_t,T_u$ for the
+two actual terminal heights, $P_t,P_u$ for the actual prefixes
+through block $k$, and $R_t,R_u$ for the two actual
+suffix heights after block $k$. On the two path events,
+$T_t,T_u\ge y-m\delta$ and $P_u\le B_k+m\delta$.
+After dropping the indicators and bounding the two noise
+weights, the integrand is bounded by
+\[
+ \exp\{-2sy+sB_k+Csm\delta\}
+       \exp\{sP_t+s(R_t+R_u)\}.
+\]
+This follows by multiplying the two terminal exponential
+Markov bounds and then using $T_u=P_u+R_u$.
+Only the $t$-prefix remains random in the bound; the
+$u$-prefix has been bounded by its barrier. Products across
+prefix and suffix blocks factor under the actual harmonic
+product law. At $k=m$ both suffixes are empty, their
+exponential factor and expectation are one, and the same
+bound is valid. Thus pairs with arbitrarily small or zero
+arithmetic separation are included in the last class.
+
+For the area estimate, a nonzero integer vector $(j,l)$
+defines a surjective homomorphism
+$(t,u)\mapsto jt+lu$ of tori, so the inverse image of a
+distance-$\epsilon$ interval has Haar measure at most
+$2\epsilon$. Summing over at most $(2R+1)^2-1$ vectors
+proves \eqref{eq:near-area}, also if some vectors have
+common divisors or one coordinate is zero. The cancellation
+in the normalized moment is exact:
+\[
+ -2sy+sB_k+\lambda S_k+2\lambda(Q-S_k)
+       -\log(\mu_L^2)=a_k-sG.
+\]
+Hence its only nonpolynomial factor, $e^{a_k}$, is canceled
+by $e^{-a_{k-1}}$ from area, leaving
+$e^\omega\le L^{A_0}$. The finite last class uses the same
+area bound and requires no separated suffix.
+
+For completeness, the passage from these bounds to probability
+is uniform in the measurable set $\mathcal D$. Put
+$d_{\mathcal D}=\Leb(\mathcal D)\ge1/2$ and
+$a_L=d_{\mathcal D}\mu_Lp_L>0$. The first moment is
+$a_L(1+o(1))$. On far pairs the second-moment integrand is
+at most $(1+o(1))\mu_L^2p_L^2$, whose integral over
+$\mathcal D^2$ is at most $(1+o(1))a_L^2$. The entire
+near integral is $o(\mu_L^2p_L^2)=o(a_L^2)$, since
+$d_{\mathcal D}^{-2}\le4$. Thus
+\[
+ \Pp_H(Z_{\mathcal D}=0)
+ \le\frac{\Var_H(Z_{\mathcal D})}{(\E_H Z_{\mathcal D})^2}
+ =\frac{\E_H Z_{\mathcal D}^2}{(\E_H Z_{\mathcal D})^2}-1
+ =o(1).
+\]
+For example, if the first moment is at least
+$(1-\epsilon)a_L$ and the second is at most
+$(1+\epsilon)a_L^2$, with $0<\epsilon<1$, the last bound
+is at most $(1+\epsilon)/(1-\epsilon)^2-1$.
+All bounds depend on $\mathcal D$ only through its lower
+mass bound. Also $Z_{\mathcal D}>0$ entails a point and
+a noise realization with terminal height at least $y$;
+the actual height there is at least $y-m\delta$.
+This completes the lower estimate with its required
+uniformity over every such $\mathcal D$.
+% END EXPANSION near_and_variance
+
+
+\subsection{The upper kernel calculation}
+For a nonzero polynomial $P$ of degree $d\ge1$,
+\begin{equation}\label{eq:poly-estimates}
+ \sup_{|z|\le1}|P'(z)|\le ed\|P\|_\infty,\qquad
+ \int_\T |P(e(t))|^s\dd t\ge\frac{c_s}{d}\|P\|_\infty^s.
+\end{equation}
+For the first estimate, the maximum principle applied to $P(z)/z^d$
+outside the disk gives $|P(z)|\le|z|^d\|P\|_\infty$. Cauchy's estimate
+on a circle of radius $1/d$ about a point in the unit disk then gives the
+derivative bound. An arc of length $c/d$ around a boundary maximizer
+has modulus at least half the maximum, proving the second estimate.
+The constants may be uniform for $s$ in its compact interval.
+The middle polynomial has degree at most $Qb\le CLb$ deterministically.
+Hence Lemma~\ref{lem:integrated} and Markov's inequality imply, for a
+sufficiently large fixed $C_1$,
+\begin{equation}\label{eq:middle-upper}
+ \Pp_H\left(\max_t X_{\rm mid}(t)
+       >\frac{a_*+\lambda Q}{s}+C_1\ell\right)
+ \le C L^{1-s_{\min}C_1}=o(1).
+\end{equation}
+Indeed this event forces the integral in \eqref{eq:integrated} to be at
+least $cA(s)^Q L^{sC_1-1}$. No spatial discretization assumption is
+needed.
+
+\subsection{Restoring low cycles before the coefficient is completed}
+Let $q_0\le Cr$ and write $X_0$ for the low field. For every deterministic
+low configuration,
+\[
+ \int_\T(-X_0(t))_+\dd t\le c_Vq_0,\qquad
+ c_V=\int_\T(-\log|1-e(t)|)_+\dd t<\infty.
+\]
+Choose fixed $C_2$ so large that $\{X_0<-C_2r\}$ has measure at most
+$1/8$. For large $n$ its complement intersected with $\mathcal D_L$
+is a measurable set $\mathcal D$ of measure at least $1/2$.
+Under the harmonic product measure it depends only on low frequencies,
+which are independent of the middle frequencies. The bound
+\eqref{eq:middle-lower} is uniform over every such measurable set, so it
+applies conditionally to this choice. Together with
+$X_0(t)\le q_0\log2$, \eqref{eq:middle-upper}, and
+$q_0=O(r)$, it follows that
+\begin{equation}\label{eq:short-H}
+ \Pp_H\left(\left|\log\left\|\prod_{j\le b}(1-z^j)^{C_j}\right\|_\infty
+             -\frac{a_*+\lambda(k-l)}s\right|>C_3\ell\right)=o(1).
+\end{equation}
+Here the counts are fixed, $q_0+Q=k-l$, $r=r_*\ell$, and the constants
+remain uniform on all regular count vectors with the bounds above.
+
+Now apply Theorem~\ref{thm:positive-transfer} to the full short-cycle
+configuration, including the low part, and to the indicator of the event
+in \eqref{eq:short-H}. Its degree is at most $kb$ and its coefficients
+are positive. The actual conditional failure probability, given the same
+count vector, is at most $(1+O(\eps_n))$ times its harmonic-product
+failure probability. This is a single comparison after all projections;
+there is no factor $(1+\eps_n)^m$ and no subtraction of an error bigger
+than the high-point probability. Finally Lemma~\ref{lem:regular} shows
+that these count vectors have actual conditional probability tending to
+one. Therefore \eqref{eq:short-H} holds under $\Pp_{n,k}$ as well,
+uniformly in $k$, with its random $l=L_*\le C\ell$.
+
+% BEGIN EXPANSION low_and_transfer
+\paragraph{Why the random low-frequency set is admissible.}
+The deterministic estimate for $X_0$ uses
+$(-\sum_vx_v)_+\le\sum_v(-x_v)_+$ and invariance of Haar
+measure under $t\mapsto jt$, for each positive integer
+frequency $j$. Consequently
+\[
+ \Leb\{t:X_0(t)<-C_2r\}\le\frac{c_Vq_0}{C_2r}\le\frac18
+\]
+after one fixed choice of $C_2$. Roots form a finite set
+and do not affect this integral or the measure bound.
+Together with $\Leb(\mathcal D_L^c)=o(1)$ this gives the
+claimed measurable $\mathcal D$ with mass at least one half.
+For every realized low configuration apply the just-proved
+uniform lower estimate to that particular set. The middle
+harmonic sample law is unchanged by this conditioning.
+Integrating over low configurations therefore preserves
+the same upper bound on its failure probability.
+
+The centering adjustment at this step is explicit:
+\[
+ \frac{a_*+\lambda(q_0+Q)}s
+       -\left(\frac{a_*-r+\lambda Q}s-C_2r-m\delta\right)
+ =\frac{r+\lambda q_0}s+C_2r+m\delta=O(\ell).
+\]
+For the upper estimate one adds at most $q_0\log2$
+to the middle maximum. The compact bounds on $s$ and
+$\lambda(s)$, $q_0\le Cr$, and the fixed value of $r_*$
+make these constants uniform.
+
+Finally, let $\mathcal R_{n,k}$ denote the set of count
+vectors obeying all regularity and reservoir-count bounds.
+Its actual conditional probability tends uniformly to one.
+On this set the normalized order estimate bounds the
+conditional short-field failure by a common quantity
+$\frac{1+\eps_n}{1-\eps_n}o(1)$, independent of the
+individual count vector. Summing these conditional
+probabilities bounds the unconditional failure by
+\[
+ \Pp_{n,k}(\mathcal R_{n,k}^{\,c})
+       +\frac{1+\eps_n}{1-\eps_n}o(1)=o(1).
+\]
+Only count vectors of positive actual mass enter this
+sum. The positive transfer also supplies positivity
+of the denominator whenever the reference mass is
+positive in the reservoir range.
+% END EXPANSION low_and_transfer
+
+
+\subsection{Long-cycle insertion with an exact conditional moment}
+\begin{lemma}[Insertion stability]\label{lem:insertion}
+Let $P$ be nonzero of degree $d\ge1$ and
+$Q(z)=\prod_v(1-z^{j_v})$, where all $j_v$ are positive integers. Then
+\begin{equation}\label{eq:insertion}
+ -\log2-2ed\sum_vj_v^{-1}
+ \le\log\|PQ\|_\infty-\log\|P\|_\infty
+ \le(\#v)\log2.
+\end{equation}
+For $d=0$ the lower bound can be replaced by zero.
+\end{lemma}
+\begin{proof}
+The upper bound is pointwise. At a maximizer $z_*$ of $P$ on the unit
+circle take $\rho=1-(2ed)^{-1}$. Equation~\eqref{eq:poly-estimates}
+gives $|P(\rho z_*)|\ge\|P\|_\infty/2$. Also
+\[
+ |Q(\rho z_*)|\ge\prod_v(1-\rho^{j_v}),\qquad
+ -\log(1-e^{-x})\le(e^x-1)^{-1}\le x^{-1}\quad(x>0).
+\]
+Since $\rho^j\le e^{-j/(2ed)}$, the claimed lower bound follows from
+the maximum modulus principle for $PQ$. When $P$ is constant use
+$Q(0)=1$.
+\end{proof}
+
+\begin{lemma}[Conditional cross-mass bound]\label{lem:crossmass}
+For $k/L$ in the fixed compact interval and $b\le n/4$,
+\begin{equation}\label{eq:crossmass}
+ \E_{n,k}\left[
+ \left(\sum_{j\le b}jC_j\right)
+ \left(\sum_{l>b}\frac{C_l}{l}\right)\right]\le C
+\end{equation}
+for all sufficiently large $n$, uniformly in $b,k$.
+\end{lemma}
+\begin{proof}
+Deleting one $j$-cycle and one $l$-cycle in \eqref{eq:conditional-law},
+where $j\ne l$, gives the exact identity
+\[
+ \E_{n,k}(C_jC_l)=\frac1{jl}\frac{a_{n-j-l,k-2}}{a_{n,k}}.
+\]
+Thus the expectation in \eqref{eq:crossmass} equals
+\begin{equation}\label{eq:cross-exact}
+ \sum_{\substack{j\le b<l\\j+l\le n}}
+ \frac1{l^2}\frac{a_{n-j-l,k-2}}{a_{n,k}}.
+\end{equation}
+If $l\le n/2$, then $n-j-l\ge n/4$. Formula~\eqref{eq:akn}, applied
+at sizes in $[n/4,n]$, bounds the coefficient ratio by a constant
+uniformly: $\log(n-j-l)=L+O(1)$ and
+$k(k-1)/L^2$ is bounded. This part of the sum is at most
+$Cb\sum_{l>b}l^{-2}\le C$.
+
+For $l>n/2$, use $l^{-2}\le4/n^2$ and the exact cumulative identity
+\begin{equation}\label{eq:sum-a}
+ \sum_{r=0}^n a_{r,k-2}
+ =[u^{k-2}]h_n(u+1)
+ =n a_{n,k-1}+a_{n,k-2}.
+\end{equation}
+It follows from $h_n(u+1)=(n+u)h_n(u)/u$.
+The ratios of the two coefficients on the right to $a_{n,k}$ are
+bounded by \eqref{eq:akn}. Hence this part of \eqref{eq:cross-exact}
+is at most $Cb/n$. This proves the assertion. The relevant $k$ exceed
+two for large $n$, so all displayed coefficients are well defined with
+the conventions in \eqref{eq:basic-coeff}.
+\end{proof}
+
+\begin{proof}[Completion of Theorem~\ref{thm:main}]
+Under $\Pp_{n,k}$, \eqref{eq:short-H} holds with probability tending to
+one, uniformly, and $L_*\le C\ell$. For the upper bound multiply back
+the $L_*$ long factors, each of supremum at most two. Since
+$L-a_*=4\ell+o(1)$, this changes the comparison with
+$(L+\lambda k)/s$ by at most a fixed multiple of $\ell$.
+
+For the lower bound apply Lemma~\ref{lem:insertion} with
+$d=\sum_{j\le b}jC_j$. By Lemma~\ref{lem:crossmass} and Markov's
+inequality, $2ed\sum_{l>b}C_l/l\le\ell$ with probability tending to
+one uniformly. Thus reinsertion decreases the maximum by at most
+$\ell+\log2$ on that event. The difference between the two centers is
+\[
+ \frac{L+\lambda k}{s}-\frac{a_*+\lambda(k-L_*)}{s}
+   =\frac{L-a_*+\lambda L_*}{s}=O(\ell).
+\]
+Combining with \eqref{eq:short-H} proves the lower half of
+\eqref{eq:main}, and hence the theorem. No lower-bound estimate for a
+Poisson spectral maximum was used in this completion.
+
+% BEGIN EXPANSION fixed_constant_completion
+\paragraph{A fixed localization constant before the error tolerance.}
+Here is an explicit final choice to keep track of the
+quantifiers. Let $C_{\rm sh}$ be the fixed constant in
+the short-field estimate, and let $C_{\rm long}$ be
+fixed so that $L_*\le C_{\rm long}\ell$ with uniformly
+high probability. Write
+$\lambda_{\max}=\max_{\kappa}\lambda(s_\kappa)$.
+The identity $\lambda(0)=\lambda'(0)=0$ and
+$\lambda''>0$ gives $\lambda_{\max}>0$.
+For all sufficiently large $n$,
+$0\le L-a_*\le5\ell$, so on this count event the
+difference of centers is nonnegative and at most
+$C_{\rm ctr}\ell$, where
+\[
+ C_{\rm ctr}=\frac{5+\lambda_{\max}C_{\rm long}}{s_{\min}},
+ \qquad
+ C=C_{\rm sh}+C_{\rm ctr}
+           +C_{\rm long}\log2+1+\log2.
+\]
+Increase the threshold for $n$ so that $\ell\ge1$.
+On the insertion event
+$2ed\sum_{l>b}C_l/l\le\ell$, the lower loss is
+at most $(1+\log2)\ell$; the upper loss is at most
+$C_{\rm long}\ell\log2$. Both sides of the desired
+inequality then follow with the displayed $C$.
+If $d=0$, the constant-polynomial version of insertion
+gives an even smaller lower loss.
+
+The complement of this intersection has probability
+at most the sum of the short-field failure, the
+long-count failure, and
+\[
+ \Pp_{n,k}\!\left(2ed\sum_{l>b}C_l/l>\ell\right)
+ \le\frac{2e}{\ell}
+       \E_{n,k}\!\left[d\sum_{l>b}C_l/l\right]
+ \le C_{\rm ins}/\ell.
+\]
+Each tends uniformly to zero. In particular, for any
+$\epsilon>0$ one subsequently chooses a threshold
+making these three terms at most $\epsilon/3$ each.
+The constants defining $C$ have already been fixed.
+The integer window in \eqref{eq:main} is nonempty
+for large $n$ because its length tends to infinity,
+and all its integers lie between $1$ and $n$.
+For each such integer $k$, a permutation with one
+cycle of length $n-k+1$ and $k-1$ fixed points shows
+that $a_{n,k}>0$. Thus the conditional laws and the
+supremum in the theorem have their literal meaning.
+% END EXPANSION fixed_constant_completion
+
+\end{proof}
+
+\section{Consequences and the limits of the conclusion}\label{sec:consequences}
+For fixed $\theta>0$ let $K_n$ have its ordinary Ewens law. Its exact
+probability generating function is $h_n(\theta u)/h_n(\theta)$.
+The gamma-ratio estimate gives
+\[
+ \frac{K_n-\theta\log n}{\sqrt{\theta\log n}}\Longrightarrow G,
+ \qquad G\sim\mathcal N(0,1),
+\]
+and $K_n/\log n\to\theta$ in probability. For example the characteristic
+function follows by putting $u=e^{it/\sqrt{\theta\log n}}$ in that
+ratio; the exponent tends to $-t^2/2$, and the gamma prefactor tends to
+one. Differentiation of \eqref{eq:critical} gives
+\begin{equation}\label{eq:v-derivatives}
+ v'(\kappa)=\frac{\lambda(s_\kappa)}{s_\kappa},\qquad
+ v''(\kappa)=-\frac1{\kappa^3s_\kappa^3\lambda''(s_\kappa)}.
+\end{equation}
+Uniform exact-cycle localization and a Taylor expansion therefore imply
+\begin{corollary}[Random centering in the ordinary Ewens law]
+\label{cor:ewens}
+For every fixed $\theta>0$, with $a_\theta=\lambda(s_\theta)/s_\theta$,
+\[
+ M_n=v(\theta)\log n+a_\theta(K_n-\theta\log n)+\Op(\log\log n).
+\]
+In fact a fixed-constant $\log\log n$ bound holds with probability tending
+to one. Jointly,
+\[
+ \left(\frac{K_n-\theta\log n}{\sqrt{\theta\log n}},
+       \frac{M_n-v(\theta)\log n}{a_\theta\sqrt{\theta\log n}}\right)
+ \Longrightarrow(G,G).
+\]
+\end{corollary}
+\begin{proof}
+Use Theorem~\ref{thm:main} on a compact interval containing $\theta$ in
+its interior. The quadratic Taylor remainder in
+$L v(K_n/L)$ is $O_{\Pp}(1)$, since
+$K_n-\theta L=O_{\Pp}(\sqrt L)$. This is smaller than $\ell\to\infty$;
+the stated fixed-constant bound and the joint limit follow.
+
+% BEGIN EXPANSION ordinary_center
+\paragraph{The Taylor remainder and the common Gaussian coordinate.}
+To detail the deterministic expansion, implicit differentiation
+in \eqref{eq:critical} yields
+\[
+ \frac{\dd s_\kappa}{\dd\kappa}
+       =-\frac1{\kappa^2s_\kappa\lambda''(s_\kappa)}.
+\]
+Substitution into $v(\kappa)=\kappa\lambda'(s_\kappa)$
+gives the two derivatives in \eqref{eq:v-derivatives}.
+In particular $v''$ is bounded on a sufficiently small
+fixed compact neighborhood of $\theta$. Since
+$\lambda(s)>0$ for $s>0$, the denominator
+$a_\theta\sqrt{\theta L}$ in the corollary is positive.
+For $k/L$ in that neighborhood Taylor's formula gives
+the deterministic bound
+\[
+ \left|L v(k/L)-L v(\theta)
+              -a_\theta(k-\theta L)\right|
+       \le C_\theta\frac{(k-\theta L)^2}{L}.
+\]
+The standardized cycle counts are tight by their CLT,
+so the right side, at $k=K_n$, is $O_{\Pp}(1)$.
+The probability of leaving the neighborhood tends
+to zero by the count law of large numbers.
+
+Theorem~\ref{thm:main}, averaged over $K_n$ inside
+this neighborhood, gives a fixed $C_0$ for which
+$\Pp(|M_n-Lv(K_n/L)|>C_0\ell)\to0$.
+For any family $R_n=O_{\Pp}(1)$ and any deterministic
+$\ell\to\infty$, $\Pp(|R_n|>\ell)\to0$: given an
+error tolerance, first choose a uniform tightness
+bound and then let $\ell$ exceed it. Applying this
+observation to the Taylor remainder proves the
+corollary's fixed-constant assertion with $C_0+1$.
+
+Set $Y_n=(K_n-\theta L)/\sqrt{\theta L}$ and let
+$V_n$ denote the second coordinate in the corollary.
+The bound just proved implies
+$V_n-Y_n\to0$ in probability, since
+$\ell/\sqrt L\to0$. The continuous map
+$x\mapsto(x,x)$ sends the count CLT to
+$(Y_n,Y_n)\Rightarrow(G,G)$; the vanishing difference
+$(0,V_n-Y_n)$ then gives the displayed joint weak limit.
+This is a statement about joint distributions.
+It does not require, or assert, convergence of second
+moments or a limit for the Pearson correlation.
+% END EXPANSION ordinary_center
+
+\end{proof}
+
+\paragraph{The original two-matching encoding.}
+If $a$ and $b$ are fixed-point-free involutions on $2n$ labels, with $a$
+fixed and $b=gag^{-1}$ uniformly conjugated, the alternating component
+counts $C_j$ have the Ewens$(1/2)$ law in the encoding of \cite{Lu}.
+On an alternating component of size $2j$, the product $ab$ consists of
+two $j$-cycles. Hence
+\[
+ \det(I-zP_{ab})=\prod_j(1-z^j)^{2C_j}.
+\]
+If the number of alternating components is fixed to $k$,
+Theorem~\ref{thm:main} applies directly: the logarithmic maximum is within
+$C\log\log n$ of $2m_{n,k}$, uniformly for $k/\log n$ in a positive
+compact interval. This is an exact application of the encoding, not an
+additional extremal theorem proved by a different approximation.
+
+% BEGIN EXPANSION matching_encoding
+\paragraph{Counting and identifying the actual matching model.}
+For completeness, the encoding can be described directly.
+Relabel the fixed matching $a$ so that its edges are
+the pairs $(i,0),(i,1)$, $1\le i\le n$. For another
+matching $b$, the graph with edges of both matchings
+has even alternating components. A common edge
+$a=b$ is a component on two vertices; it is included.
+There are exactly two binary colorings of each
+component in which both kinds of edges join opposite
+colors. Consequently a matching with $k$ components
+admits $2^k$ such colorings.
+
+Given a coloring, denote by $\operatorname{out}(i)$
+and $\operatorname{in}(i)$ the two vertices of the
+$i$th fixed edge, according to their colors.
+The matching $b$ sends $\operatorname{out}(i)$ to
+$\operatorname{in}(\pi(i))$ for a unique permutation
+$\pi$ of the $n$ fixed edges. Conversely, a choice
+of the $n$ orientations and a permutation $\pi$
+specifies all these $b$-edges and the coloring.
+The alternating components correspond exactly to
+the cycles of $\pi$, with twice their vertex counts.
+The number of permutations with cycle profile $c$
+is $n!\prod_j(j^{c_j}c_j!)^{-1}$. Counting the
+colored matchings in these two ways therefore gives
+\[
+ \#\{b:\text{component profile }c\}
+ =2^{\,n-k}n!\prod_j\frac{j^{-c_j}}{c_j!},
+ \qquad \sum_jjc_j=n,\quad \sum_jc_j=k.
+\]
+Dividing these weights by their sum identifies the
+component profile as Ewens$(1/2)$, and conditioning
+on its component count cancels the factor $(1/2)^k$.
+The normalization agrees with
+$\#\{b\}=(2n-1)!!=2^n n!h_n(1/2)$.
+Uniform conjugation indeed produces the uniform
+matching: all fixed-point-free involutions are
+conjugate, and every fiber of $g\mapsto gag^{-1}$
+is a coset of the same centralizer. Relabeling back
+to any fixed $a$ preserves the component profile.
+
+The same description determines the permutation
+$ab$. On the out-vertices it acts as $\pi$ and on
+the in-vertices as $\pi^{-1}$. A component of size
+$2j$ therefore contributes two $j$-cycles, including
+two fixed points when $j=1$. A $j$-cycle contributes
+$1-z^j$ to $\det(I-zP)$, so the determinant formula
+above holds for the actual product permutation.
+Writing $P_c(z)=\prod_j(1-z^j)^{c_j}$, one has
+$\|P_c^2\|_\infty=\|P_c\|_\infty^2$ and therefore
+the actual logarithmic maximum equals
+$2\log\|P_c\|_\infty$. Its conditioning variable
+is the number $k$ of graph components, whereas
+the permutation $ab$ itself has $2k$ cycles.
+Applying Theorem~\ref{thm:main} to the size-$n$
+profile and multiplying its error bound by two
+proves exactly the asserted center $2m_{n,k}$.
+% END EXPANSION matching_encoding
+
+
+\paragraph{What is and is not being asserted.}
+The proof above closes the conditional high-probability lower bound
+through a coefficient comparison valid for the entire path restriction.
+It also supplies the matching upper localization. It does not identify
+$M_n-m_{n,K_n}$ after subtracting a particular multiple of $\log\log n$,
+nor its distribution on a smaller scale, nor an extremal point process.
+A previous fixed-Diophantine moment theorem and a microscopic collision
+kernel are not inputs here: reorganizing the generating function into a
+reservoir and a positive constrained polynomial avoids needing a uniform
+extension of those theorems over all moving singularity clusters.
+
+The proof still uses a final second-moment inequality and elementary
+walk estimates. Its coefficient content is not a claim that probability
+can be eliminated from a probabilistic problem. The methodological point
+is that exact conditioning and all growing-dimensional path restrictions
+are handled by proved coefficient and convolution estimates, rather than
+being removed by an absolute-error approximation or inserted as a
+hypothesis.
+
+\section*{Tools and formal verification}
+The mathematical development of this paper was carried out through
+iterative work with AI assistants, which also translated the argument
+into Lean~4 and ran the verification. The formalization is over the
+literal finite permutation model: it covers the conditional law
+\eqref{eq:conditional-law}, the characteristic polynomial as the
+determinant of the actual permutation matrix, Theorem~\ref{thm:main},
+Corollary~\ref{cor:ewens} and the two-matching application of
+Section~\ref{sec:consequences}. It was checked with \texttt{trust=0} and
+\texttt{debug.skipKernelTC=false}, contains no unproved placeholders,
+and uses only the foundational axioms \texttt{propext},
+\texttt{Classical.choice} and \texttt{Quot.sound}. The Lean sources, the
+locked dependencies and the verification script are available at
+\begin{center}
+\url{https://github.com/Lzp88/conditional-spectral-extremes}.
+\end{center}
+Kernel checking establishes the formal statements, not their equivalence
+with the prose above, and bears on neither novelty nor priority. The
+author is responsible for the mathematical claims.
+
+\begin{thebibliography}{9}
+\bibitem{Lu}
+Z. Lu, \emph{On counting double centralizers of symmetric groups},
+Electronic Journal of Combinatorics \textbf{30}(2) (2023), P2.47.
+\bibitem{FFGPP}
+P. Flajolet, E. Fusy, X. Gourdon, D. Panario, and N. Pouyanne,
+\emph{A hybrid of Darboux's method and singularity analysis in
+combinatorial asymptotics}, Electronic Journal of Combinatorics
+\textbf{13} (2006), R103. doi:10.37236/1129.
+\bibitem{CZ}
+N. Cook and O. Zeitouni, \emph{Maximum of the characteristic polynomial
+for a random permutation matrix}, Communications on Pure and Applied
+Mathematics \textbf{73} (2020), 1660--1731. doi:10.1002/cpa.21899.
+\bibitem{HNNZ}
+C. Hughes, J. Najnudel, A. Nikeghbali, and D. Zeindler,
+\emph{Random permutation matrices under the generalized Ewens measure},
+Annals of Applied Probability \textbf{23}(3) (2013), 987--1024.
+doi:10.1214/12-AAP862.
+\bibitem{DZ}
+K. Dang and D. Zeindler, \emph{The characteristic polynomial of a random
+permutation matrix at different points}, Stochastic Processes and their
+Applications \textbf{124}(1) (2014), 411--439.
+doi:10.1016/j.spa.2013.08.003.
+\bibitem{Francois}
+Q. Fran\c{c}ois, \emph{Characteristic polynomial of generalized Ewens
+random permutations}, arXiv:2504.01484v2 (2025).
+\bibitem{KMS}
+Z. Kabluchko, A. Marynych, and H. Sulzbach,
+\emph{Mode and Edgeworth expansion for the Ewens distribution and the
+Stirling numbers}, Journal of Integer Sequences \textbf{19} (2016),
+Article 16.8.8.
+\bibitem{MM}
+B. Mallein and P. Mi\l o\'s, \emph{Maximal displacement of a supercritical
+branching random walk in a time-inhomogeneous random environment},
+Stochastic Processes and their Applications \textbf{129}(9) (2019),
+3239--3260. doi:10.1016/j.spa.2018.09.008.
+\bibitem{CG}
+N. A. Cook and H. Gu, \emph{On the maximum of Poissonian log-correlated
+fields}, announced work, listed as in preparation on H. Gu's
+\href{https://sites.google.com/view/haotian-gu/research}{research page}
+(accessed September 10, 2026). See also H. Gu's
+\href{https://calendar.usc.edu/event/probability-and-statistics-seminar-maximum-of-poissonian-log-correlated-fields}{seminar announcement},
+University of Southern California, January 14, 2026; the
+\href{https://erdoscenter.renyi.hu/sites/default/files/events/documents/short_talk_book_of_abstracts.pdf}{School on Disordered Media abstracts},
+Erd\H{o}s Center, January 20--24, 2025, p.~6; and N.~Cook's
+\href{https://www-math.umd.edu/gcal_rss.php?html=\&seminar_key=PROB\&year=2026}{probability seminar},
+University of Maryland, October 22, 2025.
+\end{thebibliography}
+\end{document}

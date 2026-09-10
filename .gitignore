@@ -1,0 +1,17 @@
+build/
+.lake/
+*.olean
+*.olean.private
+*.olean.server
+*.ilean
+*.ir
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+__pycache__/
+*.pyc
+verification.json
